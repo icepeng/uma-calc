@@ -1,10 +1,18 @@
 import {
   Box,
-  Checkbox,
-  CheckboxGroup,
-  Heading,
+  Button,
+  FormControl,
+  FormLabel,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
   Select,
   Stack,
+  Stat,
+  StatLabel,
+  StatNumber,
   Table,
   TableContainer,
   Tbody,
@@ -12,268 +20,172 @@ import {
   Th,
   Thead,
   Tr,
-  Wrap,
+  Wrap
 } from "@chakra-ui/react";
-import {
-  getAllCases,
-  Stat,
-  StatBonus,
-  TrainingType,
-  trainingTypes,
-} from "@uma-calc/core";
+import { pickup } from "@uma-calc/core";
 import React from "react";
-import "./App.css";
-import { buildSupportCard, SupportCardFormGroup } from "./form";
+import { Controller, useForm } from "react-hook-form";
 import Navbar from "./Navbar";
-import StatBonusForm from "./StatBonusForm";
-import SupportCardForm from "./SupportCardForm";
-import TrainingLevelForm from "./TrainingLevelForm";
+
+interface GachaForm {
+  targetDraw: number;
+  ceilPoint: number;
+  jewelLeft: number;
+  p: number;
+}
 
 const App: React.FC = () => {
-  const [supportCards, setSupportCards] = React.useState<
-    SupportCardFormGroup[]
-  >([
-    {
-      name: "킹 헤일로",
-      type: "speed",
-      trainingBonus: 5,
-      friendshipBonus: 18,
-      conditionBonus: 26,
-      statBonus: undefined,
-      speciality: 45,
-      uniqueEffects: ["speedBonus"],
+  const { register, control, getValues } = useForm<GachaForm>({
+    defaultValues: {
+      targetDraw: 5,
+      ceilPoint: 0,
+      jewelLeft: 0,
+      p: 0.0075,
     },
-    {
-      name: "스페셜 위크",
-      type: "speed",
-      trainingBonus: 0,
-      friendshipBonus: 35,
-      conditionBonus: 30,
-      statBonus: "speed",
-      speciality: 30,
-      uniqueEffects: ["trainingBonus"],
-    },
-    {
-      name: "에이신 플래시",
-      type: "speed",
-      trainingBonus: 5,
-      friendshipBonus: 20,
-      conditionBonus: 47,
-      statBonus: undefined,
-      speciality: 35,
-      uniqueEffects: ["conditionBonus"],
-    },
-    {
-      name: "맨하탄 카페",
-      type: "stamina",
-      trainingBonus: 0,
-      friendshipBonus: 20,
-      conditionBonus: 40,
-      statBonus: "stamina",
-      speciality: 50,
-      uniqueEffects: ["speciality", "trainingBonus"],
-    },
-    {
-      name: "슈퍼 크릭",
-      type: "stamina",
-      trainingBonus: 10,
-      friendshipBonus: 20,
-      conditionBonus: 0,
-      statBonus: undefined,
-      speciality: 20,
-      uniqueEffects: ["speciality", "friendshipBonus"],
-    },
-    {
-      name: "하야카와 타즈나",
-      type: "friend",
-      trainingBonus: 10,
-      friendshipBonus: 0,
-      conditionBonus: 0,
-      statBonus: undefined,
-      speciality: 0,
-      uniqueEffects: [],
-    },
-  ]);
-  const [statBonus, setStatBonus] = React.useState<StatBonus>({
-    speed: 0,
-    stamina: 0,
-    power: 0,
-    grit: 0,
-    intellect: 0,
   });
-  const [trainingLevels, setTrainingLevels] = React.useState<
-    Record<TrainingType, number>
-  >({ speed: 1, stamina: 1, power: 1, grit: 1, intellect: 1 });
-  const [friendshipCards, setFriendshipCards] = React.useState<string[]>([]);
-  const [condition, setCondition] = React.useState<number>(0.2);
+  const [avg, setAvg] = React.useState<number>(0);
+  const [hope, setHope] = React.useState<number>(0);
+  const [summary, setSummary] = React.useState<{ title: string; p: number }[]>(
+    []
+  );
 
-  const summary: Record<string, { p5: Stat; p10: Stat; p25: Stat; p50: Stat }> =
-    React.useMemo(() => {
-      return Object.fromEntries(
-        trainingTypes.map((training) => {
-          const allCases = getAllCases(
-            supportCards.map((form) => buildSupportCard(form)),
-            statBonus,
-            friendshipCards,
-            training,
-            trainingLevels[training],
-            condition
-          ).sort((a, b) => b.stat[training] - a.stat[training]);
+  function handleCalculate() {
+    const { targetDraw, ceilPoint, jewelLeft, p } = getValues();
+    const log = pickup(targetDraw, ceilPoint, p);
+    setAvg(log.reduce((sum, x) => sum + x.p * x.count, 0));
 
-          const cumulated = allCases.reduce(
-            (prev, curr, i) => [
-              ...prev,
-              {
-                stat: curr.stat,
-                p: curr.p,
-                pCum: (prev[i - 1]?.pCum ?? 0) + curr.p,
-              },
-            ],
-            [] as { stat: Stat; p: number; pCum: number }[]
-          );
+    const drawLeft = Math.floor(jewelLeft / 1500) * 10;
+    setHope(
+      log.filter((x) => x.count <= drawLeft).reduce((sum, x) => sum + x.p, 0)
+    );
+    setSummary(
+      Array.from({ length: targetDraw }, (_, k) => [
+        {
+          title: `${k}천장 + @`,
+          p: log
+            .filter((x) => x.ceilCount === k && !x.isCeil)
+            .reduce((sum, x) => sum + x.p, 0),
+        },
+        {
+          title: `${k + 1}천장`,
+          p: log.find((x) => x.ceilCount === k && x.isCeil)?.p ?? 0,
+        },
+      ]).flat()
+    );
+  }
 
-          const p5 = cumulated.find((x) => x.pCum > 0.05)!.stat;
-          const p10 = cumulated.find((x) => x.pCum > 0.1)!.stat;
-          const p25 = cumulated.find((x) => x.pCum > 0.25)!.stat;
-          const p50 = cumulated.find((x) => x.pCum > 0.5)!.stat;
-
-          return [
-            training,
-            {
-              p5,
-              p10,
-              p25,
-              p50,
-            },
-          ];
-        })
-      );
-    }, [supportCards, statBonus, trainingLevels, friendshipCards, condition]);
-
-  const handleSupportCardChange =
-    (index: number) => (form: SupportCardFormGroup) => {
-      setSupportCards([
-        ...supportCards.slice(0, index),
-        form,
-        ...supportCards.slice(index + 1),
-      ]);
-    };
+  function renderPercent(value: number) {
+    return (value * 100).toFixed(4) + "%";
+  }
 
   return (
     <>
       <Navbar />
-      <Stack padding={4} spacing={4}>
-        <Wrap spacing={4} direction="row" align="center">
-          <SupportCardForm
-            initialValue={supportCards[0]}
-            onChange={handleSupportCardChange(0)}
-          />
-          <SupportCardForm
-            initialValue={supportCards[1]}
-            onChange={handleSupportCardChange(1)}
-          />
-          <SupportCardForm
-            initialValue={supportCards[2]}
-            onChange={handleSupportCardChange(2)}
-          />
-          <SupportCardForm
-            initialValue={supportCards[3]}
-            onChange={handleSupportCardChange(3)}
-          />
-          <SupportCardForm
-            initialValue={supportCards[4]}
-            onChange={handleSupportCardChange(4)}
-          />
-          <SupportCardForm
-            initialValue={supportCards[5]}
-            onChange={handleSupportCardChange(5)}
-          />
-        </Wrap>
-        <StatBonusForm onStatBonusChange={setStatBonus} />
-        <TrainingLevelForm onChange={setTrainingLevels} />
-        <Box
+      <Wrap padding={4} spacing={4}>
+        <Stack
           padding={4}
           borderColor="gray.100"
           borderWidth={1}
           borderRadius={4}
+          maxWidth={480}
         >
-          <Heading size={"sm"} marginBottom={4}>
-            우정 트레이닝
-          </Heading>
-          <CheckboxGroup
-            value={friendshipCards}
-            onChange={(value: string[]) => setFriendshipCards(value)}
-          >
-            <Stack spacing={[1, 5]} direction={"row"}>
-              {supportCards.map((card, i) => (
-                <Checkbox key={i} value={card.name}>
-                  {card.name}
-                </Checkbox>
-              ))}
-            </Stack>
-          </CheckboxGroup>
-        </Box>
+          <FormControl>
+            <FormLabel>목표 돌파수</FormLabel>
+            <Select {...register("targetDraw")}>
+              <option value={5}>풀돌</option>
+              <option value={4}>3돌</option>
+              <option value={3}>2돌</option>
+              <option value={2}>1돌</option>
+              <option value={1}>명함</option>
+            </Select>
+          </FormControl>
+          <FormControl>
+            <FormLabel>현재 천장 포인트</FormLabel>
+            <Controller
+              name={"ceilPoint"}
+              control={control}
+              render={({ field: { ref, ...restField } }) => (
+                <NumberInput {...restField} size="sm" min={0} max={1000}>
+                  <NumberInputField ref={ref} name={restField.name} />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              )}
+            ></Controller>
+          </FormControl>
+          <FormControl>
+            <FormLabel>남은 쥬얼 개수</FormLabel>
+            <Controller
+              name={"jewelLeft"}
+              control={control}
+              render={({ field: { ref, ...restField } }) => (
+                <NumberInput {...restField} size="sm" min={0}>
+                  <NumberInputField ref={ref} name={restField.name} />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              )}
+            ></Controller>
+          </FormControl>
+          <FormControl>
+            <FormLabel>픽업 확률</FormLabel>
+            <Select {...register("p")}>
+              <option value={0.0075}>0.75%</option>
+              <option value={0.005}>0.5%</option>
+            </Select>
+          </FormControl>
+          <Button onClick={handleCalculate}>계산</Button>
+        </Stack>
         <Box
-          padding={4}
           borderColor="gray.100"
+          minWidth={360}
           borderWidth={1}
           borderRadius={4}
         >
-          <Heading size={"sm"} marginBottom={4}>
-            평균 스탯
-          </Heading>
-          <Select
-            value={condition}
-            onChange={(e) => setCondition(+e.currentTarget.value)}
-          >
-            <option value={0.2}>최상</option>
-            <option value={0.1}>양호</option>
-            <option value={0}>보통</option>
-            <option value={-0.1}>저조</option>
-            <option value={-0.2}>최악</option>
-          </Select>
           <TableContainer>
             <Table variant="simple">
               <Thead>
                 <Tr>
-                  <Th>누적확률</Th>
-                  <Th>스피드</Th>
-                  <Th>스태미나</Th>
-                  <Th>파워</Th>
-                  <Th>근성</Th>
-                  <Th>지능</Th>
+                  <Th>천장 횟수</Th>
+                  <Th isNumeric>확률</Th>
                 </Tr>
               </Thead>
               <Tbody>
-                <Tr>
-                  <Td>5%</Td>
-                  {trainingTypes.map((training) => (
-                    <Td key={training}>{summary[training].p5[training]}</Td>
-                  ))}
-                </Tr>
-                <Tr>
-                  <Td>10%</Td>
-                  {trainingTypes.map((training) => (
-                    <Td key={training}>{summary[training].p10[training]}</Td>
-                  ))}
-                </Tr>
-                <Tr>
-                  <Td>25%</Td>
-                  {trainingTypes.map((training) => (
-                    <Td key={training}>{summary[training].p25[training]}</Td>
-                  ))}
-                </Tr>
-                <Tr>
-                  <Td>50%</Td>
-                  {trainingTypes.map((training) => (
-                    <Td key={training}>{summary[training].p50[training]}</Td>
-                  ))}
-                </Tr>
+                {summary.map(({ title, p }) => (
+                  <Tr key={title}>
+                    <Td>{title}</Td>
+                    <Td isNumeric>{renderPercent(p)}</Td>
+                  </Tr>
+                ))}
               </Tbody>
             </Table>
           </TableContainer>
         </Box>
-      </Stack>
+        <Stack
+          borderColor="gray.100"
+          minWidth={360}
+          borderWidth={1}
+          borderRadius={4}
+          padding={4}
+        >
+          <Stat>
+            <StatLabel>앞으로 필요한 가챠 횟수 평균</StatLabel>
+            <StatNumber>{avg.toFixed(0)} 회</StatNumber>
+          </Stat>
+          <Stat>
+            <StatLabel>앞으로 필요한 쥬얼 평균</StatLabel>
+            <StatNumber>{(avg * 150).toFixed(0)} 쥬얼</StatNumber>
+          </Stat>
+          <Stat>
+            <StatLabel>남은 쥬얼로 목표 달성할 확률</StatLabel>
+            <StatNumber>{renderPercent(hope)}</StatNumber>
+          </Stat>
+        </Stack>
+      </Wrap>
     </>
   );
 };

@@ -1,4 +1,3 @@
-export * from "./training";
-export * from "./support-card";
-export * from "./stat";
-export * from "./stat-bonus";
+export * from "./gacha/index";
+export * from "./relation/index";
+export * from "./training/index";

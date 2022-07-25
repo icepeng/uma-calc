@@ -1,6 +1,4 @@
-import { Stat, TrainingType } from "./src/stat";
-import { SupportCard } from "./src/support-card";
-import { getAllCases } from "./src/training";
+import { getAllCases, Stat, SupportCard, TrainingType } from "./src/training";
 
 const supportCards: SupportCard[] = [
   {
