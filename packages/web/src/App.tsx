@@ -168,11 +168,11 @@ const App: React.FC = () => {
           padding={4}
         >
           <Stat>
-            <StatLabel>앞으로 필요한 가챠 횟수 평균</StatLabel>
+            <StatLabel>목표까지 필요한 가챠 횟수 평균</StatLabel>
             <StatNumber>{avg.toFixed(0)} 회</StatNumber>
           </Stat>
           <Stat>
-            <StatLabel>앞으로 필요한 쥬얼 평균</StatLabel>
+            <StatLabel>목표까지 필요한 쥬얼 평균</StatLabel>
             <StatNumber>{(avg * 150).toFixed(0)} 쥬얼</StatNumber>
           </Stat>
           <Stat>
