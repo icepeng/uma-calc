@@ -3,11 +3,7 @@ import {
   Button,
   FormControl,
   FormLabel,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
+  Input,
   Select,
   Stack,
   Stat,
@@ -24,7 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { pickup } from "@uma-calc/core";
 import React from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import Navbar from "./Navbar";
 
 interface GachaForm {
@@ -47,6 +43,7 @@ const App: React.FC = () => {
   });
   const [avg, setAvg] = React.useState<number>(0);
   const [hope, setHope] = React.useState<number>(0);
+  const [despair, setDespair] = React.useState<number>(0);
   const [summary, setSummary] = React.useState<{ title: string; p: number }[]>(
     []
   );
@@ -60,17 +57,27 @@ const App: React.FC = () => {
     setHope(
       log.filter((x) => x.count <= drawLeft).reduce((sum, x) => sum + x.p, 0)
     );
+
+    const despiarLog = pickup(
+      targetDraw,
+      ceilPoint + currentDraw * 200 + drawLeft,
+      p
+    );
+    setDespair(despiarLog.reduce((sum, x) => sum + x.p * x.count, 0));
+
     setSummary(
-      Array.from({ length: targetDraw }, (_, k) => [
+      Array.from({ length: targetDraw - currentDraw }, (_, k) => [
         {
           title: `${k}천장 + @`,
           p: log
-            .filter((x) => x.ceilCount === k && !x.isCeil)
+            .filter((x) => x.ceilCount === k + currentDraw && !x.isCeil)
             .reduce((sum, x) => sum + x.p, 0),
         },
         {
           title: `${k + 1}천장`,
-          p: log.find((x) => x.ceilCount === k && x.isCeil)?.p ?? 0,
+          p:
+            log.find((x) => x.ceilCount === k + currentDraw && x.isCeil)?.p ??
+            0,
         },
       ]).flat()
     );
@@ -93,7 +100,7 @@ const App: React.FC = () => {
         >
           <FormControl>
             <FormLabel>목표 돌파수</FormLabel>
-            <Select {...register("targetDraw")}>
+            <Select {...register("targetDraw", { valueAsNumber: true })}>
               <option value={5}>풀돌</option>
               <option value={4}>3돌</option>
               <option value={3}>2돌</option>
@@ -103,7 +110,7 @@ const App: React.FC = () => {
           </FormControl>
           <FormControl>
             <FormLabel>현재 돌파수</FormLabel>
-            <Select {...register("currentDraw")}>
+            <Select {...register("currentDraw", { valueAsNumber: true })}>
               <option value={4}>3돌</option>
               <option value={3}>2돌</option>
               <option value={2}>1돌</option>
@@ -113,35 +120,11 @@ const App: React.FC = () => {
           </FormControl>
           <FormControl>
             <FormLabel>현재 천장 포인트</FormLabel>
-            <Controller
-              name={"ceilPoint"}
-              control={control}
-              render={({ field: { ref, ...restField } }) => (
-                <NumberInput {...restField} size="sm" min={0} max={1000}>
-                  <NumberInputField ref={ref} name={restField.name} />
-                  <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                  </NumberInputStepper>
-                </NumberInput>
-              )}
-            ></Controller>
+            <Input {...register("ceilPoint", { valueAsNumber: true })} />
           </FormControl>
           <FormControl>
             <FormLabel>남은 쥬얼 개수</FormLabel>
-            <Controller
-              name={"jewelLeft"}
-              control={control}
-              render={({ field: { ref, ...restField } }) => (
-                <NumberInput {...restField} size="sm" min={0}>
-                  <NumberInputField ref={ref} name={restField.name} />
-                  <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                  </NumberInputStepper>
-                </NumberInput>
-              )}
-            ></Controller>
+            <Input {...register("jewelLeft", { valueAsNumber: true })} />
           </FormControl>
           <FormControl>
             <FormLabel>픽업 확률</FormLabel>
@@ -195,6 +178,12 @@ const App: React.FC = () => {
           <Stat>
             <StatLabel>남은 쥬얼로 목표 달성할 확률</StatLabel>
             <StatNumber>{renderPercent(hope)}</StatNumber>
+          </Stat>
+          <Stat>
+            <StatLabel>
+              남은 쥬얼로 목표 달성 실패시 추가로 필요한 쥬얼 평균
+            </StatLabel>
+            <StatNumber>{(despair * 150).toFixed(0)} 쥬얼</StatNumber>
           </Stat>
         </Stack>
       </Wrap>
