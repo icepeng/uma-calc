@@ -20,7 +20,7 @@ import {
   Th,
   Thead,
   Tr,
-  Wrap
+  Wrap,
 } from "@chakra-ui/react";
 import { pickup } from "@uma-calc/core";
 import React from "react";
@@ -29,6 +29,7 @@ import Navbar from "./Navbar";
 
 interface GachaForm {
   targetDraw: number;
+  currentDraw: number;
   ceilPoint: number;
   jewelLeft: number;
   p: number;
@@ -38,6 +39,7 @@ const App: React.FC = () => {
   const { register, control, getValues } = useForm<GachaForm>({
     defaultValues: {
       targetDraw: 5,
+      currentDraw: 0,
       ceilPoint: 0,
       jewelLeft: 0,
       p: 0.0075,
@@ -50,8 +52,8 @@ const App: React.FC = () => {
   );
 
   function handleCalculate() {
-    const { targetDraw, ceilPoint, jewelLeft, p } = getValues();
-    const log = pickup(targetDraw, ceilPoint, p);
+    const { targetDraw, currentDraw, ceilPoint, jewelLeft, p } = getValues();
+    const log = pickup(targetDraw, ceilPoint + currentDraw * 200, p);
     setAvg(log.reduce((sum, x) => sum + x.p * x.count, 0));
 
     const drawLeft = Math.floor(jewelLeft / 1500) * 10;
@@ -97,6 +99,16 @@ const App: React.FC = () => {
               <option value={3}>2돌</option>
               <option value={2}>1돌</option>
               <option value={1}>명함</option>
+            </Select>
+          </FormControl>
+          <FormControl>
+            <FormLabel>현재 돌파수</FormLabel>
+            <Select {...register("currentDraw")}>
+              <option value={4}>3돌</option>
+              <option value={3}>2돌</option>
+              <option value={2}>1돌</option>
+              <option value={1}>명함</option>
+              <option value={0}>없음</option>
             </Select>
           </FormControl>
           <FormControl>
