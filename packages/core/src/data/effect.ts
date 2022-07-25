@@ -1,4 +1,4 @@
-[
+export const effects = [
   {
     id: 1,
     jp_name: "\u53cb\u60c5\u30dc\u30fc\u30ca\u30b9",
