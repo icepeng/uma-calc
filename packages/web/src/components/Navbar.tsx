@@ -4,17 +4,25 @@ import {
   Flex,
   HStack,
   IconButton,
-  Link,
+  Link as Route,
   Stack,
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
-import { ReactNode } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 
-const Links: string[] = [];
+type Route = { title: string; href: string };
 
-const NavLink = ({ children }: { children: ReactNode }) => (
-  <Link
+const ROUTES: Route[] = [
+  { title: "픽업", href: "gacha" },
+  { title: "훈련", href: "training" },
+  { title: "인자", href: "gene" },
+];
+
+const NavLink: React.FC<{ route: Route }> = ({ route }) => (
+  <Route
+    as={Link}
     px={2}
     py={1}
     rounded={"md"}
@@ -22,10 +30,10 @@ const NavLink = ({ children }: { children: ReactNode }) => (
       textDecoration: "none",
       bg: useColorModeValue("gray.200", "gray.700"),
     }}
-    href={"#"}
+    to={route.href}
   >
-    {children}
-  </Link>
+    {route.title}
+  </Route>
 );
 
 const Navbar: React.FC = () => {
@@ -52,8 +60,8 @@ const Navbar: React.FC = () => {
             UmaCalc
           </Box>
           <HStack as={"nav"} spacing={4} display={{ base: "none", md: "flex" }}>
-            {Links.map((link) => (
-              <NavLink key={link}>{link}</NavLink>
+            {ROUTES.map((route) => (
+              <NavLink key={route.href} route={route} />
             ))}
           </HStack>
         </HStack>
@@ -62,8 +70,8 @@ const Navbar: React.FC = () => {
       {isOpen ? (
         <Box pb={4} display={{ md: "none" }}>
           <Stack as={"nav"} spacing={4}>
-            {Links.map((link) => (
-              <NavLink key={link}>{link}</NavLink>
+            {ROUTES.map((route) => (
+              <NavLink key={route.href} route={route} />
             ))}
           </Stack>
         </Box>

@@ -11,7 +11,7 @@ import {
   ModalOverlay,
   Select,
 } from "@chakra-ui/react";
-import { characters, Gene } from "@uma-calc/core";
+import { db, Gene } from "@uma-calc/core";
 import React from "react";
 import { useForm } from "react-hook-form";
 
@@ -54,7 +54,7 @@ const GeneModal: React.FC<{
           <FormControl>
             <FormLabel>캐릭터</FormLabel>
             <Select {...register("charaId")}>
-              {characters
+              {db.characters
                 .filter((char) => char.playable && char.name_ko)
                 .map((char) => (
                   <option key={char.char_id} value={char.char_id}>

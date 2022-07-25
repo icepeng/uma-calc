@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { Stat, SupportType } from "@uma-calc/core";
 import React from "react";
-import { SupportCardFormGroup } from "./form";
+import { SupportCardFormGroup } from "../form";
 
 const SupportCardForm: React.FC<{
   initialValue?: SupportCardFormGroup;
