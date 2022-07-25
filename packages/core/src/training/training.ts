@@ -54,7 +54,7 @@ export function getTrainingStat(
     speed: Math.floor(baseStat.speed * bonus.speed * totalBonus),
     stamina: Math.floor(baseStat.stamina * bonus.stamina * totalBonus),
     power: Math.floor(baseStat.power * bonus.power * totalBonus),
-    grit: Math.floor(baseStat.grit * bonus.grit * totalBonus),
+    guts: Math.floor(baseStat.guts * bonus.guts * totalBonus),
     intellect: Math.floor(baseStat.intellect * bonus.intellect * totalBonus),
     skillPoint: Math.floor(baseStat.skillPoint * totalBonus),
   };
@@ -65,9 +65,9 @@ function getTargetRate(card: SupportCard, target: TrainingType) {
     return 100 / 600;
   }
   if (card.type === target) {
-    return (100 + card.speciality) / (550 + card.speciality);
+    return (100 + card.specialty) / (550 + card.specialty);
   }
-  return 100 / (550 + card.speciality);
+  return 100 / (550 + card.specialty);
 }
 
 export function getAllCases(

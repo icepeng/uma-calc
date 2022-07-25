@@ -10,7 +10,7 @@ import {
   NumberInputStepper,
   Stack,
 } from "@chakra-ui/react";
-import { StatBonus, TrainingType } from "@uma-calc/core";
+import { TrainingType } from "@uma-calc/core";
 import React from "react";
 
 const TrainingLevelForm: React.FC<{
@@ -19,7 +19,7 @@ const TrainingLevelForm: React.FC<{
   const [speed, setSpeed] = React.useState<number>(1);
   const [stamina, setStamina] = React.useState<number>(1);
   const [power, setPower] = React.useState<number>(1);
-  const [grit, setGrit] = React.useState<number>(1);
+  const [guts, setGuts] = React.useState<number>(1);
   const [intellect, setIntellect] = React.useState<number>(1);
 
   React.useEffect(() => {
@@ -27,10 +27,10 @@ const TrainingLevelForm: React.FC<{
       speed,
       stamina,
       power,
-      grit,
+      guts,
       intellect,
     });
-  }, [speed, stamina, power, grit, intellect]);
+  }, [speed, stamina, power, guts, intellect]);
 
   return (
     <Box padding={4} borderColor="gray.100" borderWidth={1} borderRadius={4}>
@@ -89,8 +89,8 @@ const TrainingLevelForm: React.FC<{
         <FormControl>
           <FormLabel>근성</FormLabel>
           <NumberInput
-            value={grit}
-            onChange={(_, value) => setGrit(value ?? 0)}
+            value={guts}
+            onChange={(_, value) => setGuts(value ?? 0)}
             size="sm"
             min={1}
             max={5}

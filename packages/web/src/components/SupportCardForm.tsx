@@ -27,7 +27,7 @@ const SupportCardForm: React.FC<{
   const [friendshipBonus, setFriendshipBonus] = React.useState<number>(0);
   const [conditionBonus, setConditionBonus] = React.useState<number>(0);
   const [statBonus, setStatBonus] = React.useState<keyof Stat | undefined>();
-  const [speciality, setSpeciality] = React.useState<number>(0);
+  const [specialty, setSpecialty] = React.useState<number>(0);
   const [uniqueEffects, setUniqueEffects] = React.useState<string[]>([]);
 
   React.useEffect(() => {
@@ -38,7 +38,7 @@ const SupportCardForm: React.FC<{
       friendshipBonus,
       conditionBonus,
       statBonus,
-      speciality,
+      specialty,
       uniqueEffects,
     });
   }, [
@@ -48,7 +48,7 @@ const SupportCardForm: React.FC<{
     friendshipBonus,
     conditionBonus,
     statBonus,
-    speciality,
+    specialty,
     uniqueEffects,
   ]);
 
@@ -62,7 +62,7 @@ const SupportCardForm: React.FC<{
     setFriendshipBonus(initialValue.friendshipBonus);
     setConditionBonus(initialValue.conditionBonus);
     setStatBonus(initialValue.statBonus);
-    setSpeciality(initialValue.speciality);
+    setSpecialty(initialValue.specialty);
     setUniqueEffects(initialValue.uniqueEffects);
   }, []);
 
@@ -88,7 +88,7 @@ const SupportCardForm: React.FC<{
               <option value="speed">스피드</option>
               <option value="stamina">스태미나</option>
               <option value="power">파워</option>
-              <option value="grit">근성</option>
+              <option value="guts">근성</option>
               <option value="intellect">지능</option>
               <option value="friend">친구</option>
             </Select>
@@ -96,8 +96,8 @@ const SupportCardForm: React.FC<{
           <FormControl>
             <FormLabel>특기율</FormLabel>
             <NumberInput
-              value={speciality}
-              onChange={(_, value) => setSpeciality(value || 0)}
+              value={specialty}
+              onChange={(_, value) => setSpecialty(value || 0)}
               size="sm"
               min={0}
               max={100}
@@ -172,7 +172,7 @@ const SupportCardForm: React.FC<{
               <option value="speed">스피드</option>
               <option value="stamina">스태미나</option>
               <option value="power">파워</option>
-              <option value="grit">근성</option>
+              <option value="guts">근성</option>
               <option value="intellect">지능</option>
               <option value="skillPoint">스킬 포인트</option>
             </Select>
@@ -190,9 +190,9 @@ const SupportCardForm: React.FC<{
               <Checkbox value="speedBonus">스피드 보너스 증가</Checkbox>
               <Checkbox value="staminaBonus">스태미나 보너스 증가</Checkbox>
               <Checkbox value="powerBonus">파워 보너스 증가</Checkbox>
-              <Checkbox value="gritBonus">근성 보너스 증가</Checkbox>
+              <Checkbox value="gutsBonus">근성 보너스 증가</Checkbox>
               <Checkbox value="intellectBonus">지능 보너스 증가</Checkbox>
-              <Checkbox value="speciality">특기율 증가</Checkbox>
+              <Checkbox value="specialty">특기율 증가</Checkbox>
             </Stack>
           </CheckboxGroup>
         </Stack>

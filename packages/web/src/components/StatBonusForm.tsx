@@ -19,7 +19,7 @@ const StatBonusForm: React.FC<{
   const [speed, setSpeed] = React.useState<number>(0);
   const [stamina, setStamina] = React.useState<number>(0);
   const [power, setPower] = React.useState<number>(0);
-  const [grit, setGrit] = React.useState<number>(0);
+  const [guts, setGuts] = React.useState<number>(0);
   const [intellect, setIntellect] = React.useState<number>(0);
 
   const buildStatBonus = (): StatBonus => {
@@ -27,14 +27,14 @@ const StatBonusForm: React.FC<{
       speed: 1 + speed / 100,
       stamina: 1 + stamina / 100,
       power: 1 + power / 100,
-      grit: 1 + grit / 100,
+      guts: 1 + guts / 100,
       intellect: 1 + intellect / 100,
     };
   };
 
   React.useEffect(() => {
     onStatBonusChange?.(buildStatBonus());
-  }, [speed, stamina, power, grit, intellect]);
+  }, [speed, stamina, power, guts, intellect]);
 
   return (
     <Box padding={4} borderColor="gray.100" borderWidth={1} borderRadius={4}>
@@ -93,8 +93,8 @@ const StatBonusForm: React.FC<{
         <FormControl>
           <FormLabel>근성%</FormLabel>
           <NumberInput
-            value={grit}
-            onChange={(_, value) => setGrit(value ?? 0)}
+            value={guts}
+            onChange={(_, value) => setGuts(value ?? 0)}
             size="sm"
             min={0}
             max={30}

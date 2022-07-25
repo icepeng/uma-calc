@@ -31,7 +31,7 @@ interface GachaForm {
 }
 
 const GachaPage: React.FC = () => {
-  const { register, control, getValues } = useForm<GachaForm>({
+  const { register, getValues } = useForm<GachaForm>({
     defaultValues: {
       targetDraw: 5,
       currentDraw: 0,

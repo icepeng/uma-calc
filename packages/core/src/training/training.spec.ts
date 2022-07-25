@@ -16,7 +16,7 @@ describe("getTrainingStat", () => {
         statBonus: Stat({
           power: 1,
         }),
-        speciality: 100,
+        specialty: 100,
       },
       {
         name: "나리타 타이신",
@@ -27,7 +27,7 @@ describe("getTrainingStat", () => {
         statBonus: Stat({
           speed: 1,
         }),
-        speciality: 0,
+        specialty: 0,
       },
       {
         name: "에이신 플래시",
@@ -38,7 +38,7 @@ describe("getTrainingStat", () => {
         statBonus: Stat({
           speed: 1,
         }),
-        speciality: 0,
+        specialty: 0,
       },
       {
         name: "사일런스 스즈카",
@@ -49,7 +49,7 @@ describe("getTrainingStat", () => {
         statBonus: Stat({
           skillPoint: 1,
         }),
-        speciality: 0,
+        specialty: 0,
       },
     ];
 
@@ -57,7 +57,7 @@ describe("getTrainingStat", () => {
       speed: 1,
       power: 1.1,
       stamina: 1,
-      grit: 1,
+      guts: 1,
       intellect: 1,
     };
     // when

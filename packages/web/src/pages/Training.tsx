@@ -33,7 +33,7 @@ const TrainingPage: React.FC = () => {
       friendshipBonus: 18,
       conditionBonus: 26,
       statBonus: undefined,
-      speciality: 45,
+      specialty: 45,
       uniqueEffects: ["speedBonus"],
     },
     {
@@ -43,7 +43,7 @@ const TrainingPage: React.FC = () => {
       friendshipBonus: 35,
       conditionBonus: 30,
       statBonus: "speed",
-      speciality: 30,
+      specialty: 30,
       uniqueEffects: ["trainingBonus"],
     },
     {
@@ -53,7 +53,7 @@ const TrainingPage: React.FC = () => {
       friendshipBonus: 20,
       conditionBonus: 47,
       statBonus: undefined,
-      speciality: 35,
+      specialty: 35,
       uniqueEffects: ["conditionBonus"],
     },
     {
@@ -63,8 +63,8 @@ const TrainingPage: React.FC = () => {
       friendshipBonus: 20,
       conditionBonus: 40,
       statBonus: "stamina",
-      speciality: 50,
-      uniqueEffects: ["speciality", "trainingBonus"],
+      specialty: 50,
+      uniqueEffects: ["specialty", "trainingBonus"],
     },
     {
       name: "슈퍼 크릭",
@@ -73,8 +73,8 @@ const TrainingPage: React.FC = () => {
       friendshipBonus: 20,
       conditionBonus: 0,
       statBonus: undefined,
-      speciality: 20,
-      uniqueEffects: ["speciality", "friendshipBonus"],
+      specialty: 20,
+      uniqueEffects: ["specialty", "friendshipBonus"],
     },
     {
       name: "하야카와 타즈나",
@@ -83,7 +83,7 @@ const TrainingPage: React.FC = () => {
       friendshipBonus: 0,
       conditionBonus: 0,
       statBonus: undefined,
-      speciality: 0,
+      specialty: 0,
       uniqueEffects: [],
     },
   ]);
@@ -91,12 +91,12 @@ const TrainingPage: React.FC = () => {
     speed: 0,
     stamina: 0,
     power: 0,
-    grit: 0,
+    guts: 0,
     intellect: 0,
   });
   const [trainingLevels, setTrainingLevels] = React.useState<
     Record<TrainingType, number>
-  >({ speed: 1, stamina: 1, power: 1, grit: 1, intellect: 1 });
+  >({ speed: 1, stamina: 1, power: 1, guts: 1, intellect: 1 });
   const [friendshipCards, setFriendshipCards] = React.useState<string[]>([]);
   const [condition, setCondition] = React.useState<number>(0.2);
 

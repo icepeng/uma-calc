@@ -7,7 +7,7 @@ export interface SupportCard {
   conditionBonus: number;
   friendshipBonus: number;
   statBonus: Stat;
-  speciality: number;
+  specialty: number;
 }
 
 export type SupportType = TrainingType | "friend";
@@ -19,7 +19,7 @@ const emptySupportCard: SupportCard = {
   conditionBonus: 0,
   friendshipBonus: 1,
   statBonus: Stat({}),
-  speciality: 0,
+  specialty: 0,
 };
 
 export function SupportCard(obj: Partial<SupportCard>) {
