@@ -1,4 +1,4 @@
-import { bonusResolver } from "./loader";
+import { bonusResolver, loadSupportCard } from "./loader";
 
 describe("bonusResolver", () => {
   it("should calculate motivationBonus from effects", () => {
@@ -21,5 +21,34 @@ describe("bonusResolver", () => {
 
     // then
     expect(motivationBonus).toBe(27);
+  });
+});
+
+describe("loadSupportCard", () => {
+  it("should create supportCard from id and level", () => {
+    // given
+    const cardId = 20023; // 스윕 토쇼 SR
+    const level = 45;
+
+    // when
+    const supportCard = loadSupportCard(cardId, level);
+
+    // then
+    expect(supportCard).toStrictEqual({
+      name: "스윕 토쇼",
+      type: "speed",
+      motivationBonus: 0.4,
+      friendshipBonus: 1.3,
+      trainingBonus: 0.05,
+      statBonus: {
+        guts: 0,
+        power: 0,
+        skillPoint: 1,
+        speed: 0,
+        stamina: 0,
+        wizdom: 0,
+      },
+      specialty: 50,
+    });
   });
 });

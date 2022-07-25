@@ -14,79 +14,55 @@ import {
   Tr,
   Wrap,
 } from "@chakra-ui/react";
-import type { Stat, StatBonus, TrainingType } from "@uma-calc/core";
-import { getAllCases, trainingTypes } from "@uma-calc/core";
+import {
+  getAllCases,
+  loadSupportCard,
+  Stat,
+  StatBonus,
+  TrainingType,
+  trainingTypes,
+} from "@uma-calc/core";
 import React from "react";
 import StatBonusForm from "../components/StatBonusForm";
 import SupportCardForm from "../components/SupportCardForm";
 import TrainingLevelForm from "../components/TrainingLevelForm";
-import { buildSupportCard, SupportCardFormGroup } from "../form";
 
 const TrainingPage: React.FC = () => {
-  const [supportCards, setSupportCards] = React.useState<
-    SupportCardFormGroup[]
+  const [supportCardStates, setSupportCardStates] = React.useState<
+    { id: number | undefined; level: number }[]
   >([
     {
-      name: "킹 헤일로",
-      type: "speed",
-      trainingBonus: 5,
-      friendshipBonus: 18,
-      motivationBonus: 26,
-      statBonus: undefined,
-      specialty: 45,
-      uniqueEffects: ["speedBonus"],
+      id: undefined,
+      level: 0,
     },
     {
-      name: "스페셜 위크",
-      type: "speed",
-      trainingBonus: 0,
-      friendshipBonus: 35,
-      motivationBonus: 30,
-      statBonus: "speed",
-      specialty: 30,
-      uniqueEffects: ["trainingBonus"],
+      id: undefined,
+      level: 0,
     },
     {
-      name: "에이신 플래시",
-      type: "speed",
-      trainingBonus: 5,
-      friendshipBonus: 20,
-      motivationBonus: 47,
-      statBonus: undefined,
-      specialty: 35,
-      uniqueEffects: ["motivationBonus"],
+      id: undefined,
+      level: 0,
     },
     {
-      name: "맨하탄 카페",
-      type: "stamina",
-      trainingBonus: 0,
-      friendshipBonus: 20,
-      motivationBonus: 40,
-      statBonus: "stamina",
-      specialty: 50,
-      uniqueEffects: ["specialty", "trainingBonus"],
+      id: undefined,
+      level: 0,
     },
     {
-      name: "슈퍼 크릭",
-      type: "stamina",
-      trainingBonus: 10,
-      friendshipBonus: 20,
-      motivationBonus: 0,
-      statBonus: undefined,
-      specialty: 20,
-      uniqueEffects: ["specialty", "friendshipBonus"],
+      id: undefined,
+      level: 0,
     },
     {
-      name: "하야카와 타즈나",
-      type: "friend",
-      trainingBonus: 10,
-      friendshipBonus: 0,
-      motivationBonus: 0,
-      statBonus: undefined,
-      specialty: 0,
-      uniqueEffects: [],
+      id: undefined,
+      level: 0,
     },
   ]);
+  const supportCards = React.useMemo(
+    () =>
+      supportCardStates
+        .filter((state) => state.id !== undefined)
+        .map((state) => loadSupportCard(state.id!, state.level)!),
+    []
+  );
   const [statBonus, setStatBonus] = React.useState<StatBonus>({
     speed: 0,
     stamina: 0,
@@ -105,7 +81,7 @@ const TrainingPage: React.FC = () => {
       return Object.fromEntries(
         trainingTypes.map((training) => {
           const allCases = getAllCases(
-            supportCards.map((form) => buildSupportCard(form)),
+            supportCards,
             statBonus,
             friendshipCards,
             training,
@@ -144,41 +120,24 @@ const TrainingPage: React.FC = () => {
     }, [supportCards, statBonus, trainingLevels, friendshipCards, motivation]);
 
   const handleSupportCardChange =
-    (index: number) => (form: SupportCardFormGroup) => {
-      setSupportCards([
-        ...supportCards.slice(0, index),
+    (index: number) => (form: { id: number; level: number }) => {
+      console.log(form);
+      setSupportCardStates([
+        ...supportCardStates.slice(0, index),
         form,
-        ...supportCards.slice(index + 1),
+        ...supportCardStates.slice(index + 1),
       ]);
     };
 
   return (
     <Stack padding={4} spacing={4}>
       <Wrap spacing={4} direction="row" align="center">
-        <SupportCardForm
-          initialValue={supportCards[0]}
-          onChange={handleSupportCardChange(0)}
-        />
-        <SupportCardForm
-          initialValue={supportCards[1]}
-          onChange={handleSupportCardChange(1)}
-        />
-        <SupportCardForm
-          initialValue={supportCards[2]}
-          onChange={handleSupportCardChange(2)}
-        />
-        <SupportCardForm
-          initialValue={supportCards[3]}
-          onChange={handleSupportCardChange(3)}
-        />
-        <SupportCardForm
-          initialValue={supportCards[4]}
-          onChange={handleSupportCardChange(4)}
-        />
-        <SupportCardForm
-          initialValue={supportCards[5]}
-          onChange={handleSupportCardChange(5)}
-        />
+        <SupportCardForm onChange={handleSupportCardChange(0)} />
+        <SupportCardForm onChange={handleSupportCardChange(1)} />
+        <SupportCardForm onChange={handleSupportCardChange(2)} />
+        <SupportCardForm onChange={handleSupportCardChange(3)} />
+        <SupportCardForm onChange={handleSupportCardChange(4)} />
+        <SupportCardForm onChange={handleSupportCardChange(5)} />
       </Wrap>
       <StatBonusForm onStatBonusChange={setStatBonus} />
       <TrainingLevelForm onChange={setTrainingLevels} />

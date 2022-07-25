@@ -78,9 +78,11 @@ export function loadSupportCard(
   return {
     name: rawData.name_ko,
     type: rawData.type as SupportType,
-    motivationBonus: bonusResolver("motivationBonus", rawData.effects, level),
-    friendshipBonus: bonusResolver("friendshipBonus", rawData.effects, level),
-    trainingBonus: bonusResolver("trainingBonus", rawData.effects, level),
+    motivationBonus:
+      bonusResolver("motivationBonus", rawData.effects, level) / 100,
+    friendshipBonus:
+      bonusResolver("friendshipBonus", rawData.effects, level) / 100 + 1,
+    trainingBonus: bonusResolver("trainingBonus", rawData.effects, level) / 100,
     statBonus: {
       speed: bonusResolver("speedBonus", rawData.effects, level),
       stamina: bonusResolver("staminaBonus", rawData.effects, level),

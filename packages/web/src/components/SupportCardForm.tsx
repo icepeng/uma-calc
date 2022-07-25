@@ -1,201 +1,82 @@
 import {
   Box,
-  Checkbox,
-  CheckboxGroup,
   FormControl,
   FormLabel,
   Input,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
   Select,
   Stack,
 } from "@chakra-ui/react";
-import { Stat, SupportType } from "@uma-calc/core";
-import React from "react";
-import { SupportCardFormGroup } from "../form";
+import { db } from "@uma-calc/core";
+import React, { useEffect } from "react";
+import { useForm, useWatch } from "react-hook-form";
+
+function renderRarity(rarity: number) {
+  if (rarity === 1) {
+    return "R";
+  }
+  if (rarity === 2) {
+    return "SR";
+  }
+  if (rarity === 3) {
+    return "SSR";
+  }
+  return "?";
+}
+
+function renderType(type: string) {
+  if (type === "speed") {
+    return "스피드";
+  }
+  if (type === "stamina") {
+    return "스태미너";
+  }
+  if (type === "power") {
+    return "파워";
+  }
+  if (type === "guts") {
+    return "근성";
+  }
+  if (type === "intelligence") {
+    return "지능";
+  }
+  if (type === "friend") {
+    return "친구";
+  }
+  return "?";
+}
 
 const SupportCardForm: React.FC<{
-  initialValue?: SupportCardFormGroup;
-  onChange?: (form: SupportCardFormGroup) => void;
-}> = ({ initialValue, onChange }) => {
-  const [name, setName] = React.useState("");
-  const [type, setType] = React.useState<SupportType>("speed");
-  const [trainingBonus, setTrainingBonus] = React.useState<number>(0);
-  const [friendshipBonus, setFriendshipBonus] = React.useState<number>(0);
-  const [motivationBonus, setMotivationBonus] = React.useState<number>(0);
-  const [statBonus, setStatBonus] = React.useState<keyof Stat | undefined>();
-  const [specialty, setSpecialty] = React.useState<number>(0);
-  const [uniqueEffects, setUniqueEffects] = React.useState<string[]>([]);
+  onChange?: (form: { id: number; level: number }) => void;
+}> = ({ onChange }) => {
+  const { register, control } = useForm<{ id: number; level: number }>();
+  const value = useWatch({ control });
 
-  React.useEffect(() => {
-    onChange?.({
-      name,
-      type,
-      trainingBonus,
-      friendshipBonus,
-      motivationBonus,
-      statBonus,
-      specialty,
-      uniqueEffects,
-    });
-  }, [
-    name,
-    type,
-    trainingBonus,
-    friendshipBonus,
-    motivationBonus,
-    statBonus,
-    specialty,
-    uniqueEffects,
-  ]);
-
-  React.useEffect(() => {
-    if (!initialValue) {
-      return;
+  useEffect(() => {
+    if (value.id && value.level) {
+      onChange?.({ id: value.id, level: value.level });
     }
-    setName(initialValue.name);
-    setType(initialValue.type);
-    setTrainingBonus(initialValue.trainingBonus);
-    setFriendshipBonus(initialValue.friendshipBonus);
-    setMotivationBonus(initialValue.motivationBonus);
-    setStatBonus(initialValue.statBonus);
-    setSpecialty(initialValue.specialty);
-    setUniqueEffects(initialValue.uniqueEffects);
-  }, []);
+  }, [value]);
 
   return (
     <Box padding={4} borderColor="gray.100" borderWidth={1} borderRadius={4}>
-      <Stack spacing={4} direction="row">
-        <Stack spacing={4} direction="column" align="center">
-          <FormControl>
-            <FormLabel>카드명</FormLabel>
-            <Input
-              value={name}
-              onChange={(e) => setName(e.currentTarget.value)}
-              size="sm"
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel>특기</FormLabel>
-            <Select
-              value={type}
-              onChange={(e) => setType(e.currentTarget.value as SupportType)}
-              size="sm"
-            >
-              <option value="speed">스피드</option>
-              <option value="stamina">스태미나</option>
-              <option value="power">파워</option>
-              <option value="guts">근성</option>
-              <option value="wizdom">지능</option>
-              <option value="friend">친구</option>
-            </Select>
-          </FormControl>
-          <FormControl>
-            <FormLabel>특기율</FormLabel>
-            <NumberInput
-              value={specialty}
-              onChange={(_, value) => setSpecialty(value || 0)}
-              size="sm"
-              min={0}
-              max={100}
-            >
-              <NumberInputField />
-              <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-              </NumberInputStepper>
-            </NumberInput>
-          </FormControl>
-        </Stack>
-        <Stack spacing={4} direction="column" align="center">
-          <FormControl>
-            <FormLabel>트레이닝 효과 증가 %</FormLabel>
-            <NumberInput
-              value={trainingBonus}
-              onChange={(_, value) => setTrainingBonus(value || 0)}
-              size="sm"
-              min={0}
-              max={100}
-            >
-              <NumberInputField />
-              <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-              </NumberInputStepper>
-            </NumberInput>
-          </FormControl>
-          <FormControl>
-            <FormLabel>우정 보너스 증가 %</FormLabel>
-            <NumberInput
-              value={friendshipBonus}
-              onChange={(_, value) => setFriendshipBonus(value || 0)}
-              size="sm"
-              min={0}
-              max={100}
-            >
-              <NumberInputField />
-              <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-              </NumberInputStepper>
-            </NumberInput>
-          </FormControl>
-          <FormControl>
-            <FormLabel>컨디션 효과 증가 %</FormLabel>
-            <NumberInput
-              value={motivationBonus}
-              onChange={(_, value) => setMotivationBonus(value || 0)}
-              size="sm"
-              min={0}
-              max={100}
-            >
-              <NumberInputField />
-              <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-              </NumberInputStepper>
-            </NumberInput>
-          </FormControl>
-          <FormControl>
-            <FormLabel>스탯 보너스</FormLabel>
-            <Select
-              value={statBonus}
-              onChange={(e) =>
-                setStatBonus(e.currentTarget.value as keyof Stat | undefined)
-              }
-              size="sm"
-            >
-              <option value={undefined}>없음</option>
-              <option value="speed">스피드</option>
-              <option value="stamina">스태미나</option>
-              <option value="power">파워</option>
-              <option value="guts">근성</option>
-              <option value="wizdom">지능</option>
-              <option value="skillPoint">스킬 포인트</option>
-            </Select>
-          </FormControl>
-        </Stack>
-        <Stack spacing={4} direction="column" align="center">
-          <CheckboxGroup
-            value={uniqueEffects}
-            onChange={(value: string[]) => setUniqueEffects(value)}
-          >
-            <Stack spacing={[1, 5]} direction={"column"}>
-              <Checkbox value="trainingBonus">트레이닝 효과 증가</Checkbox>
-              <Checkbox value="friendshipBonus">우정 보너스 증가</Checkbox>
-              <Checkbox value="motivationBonus">컨디션 효과 증가</Checkbox>
-              <Checkbox value="speedBonus">스피드 보너스 증가</Checkbox>
-              <Checkbox value="staminaBonus">스태미나 보너스 증가</Checkbox>
-              <Checkbox value="powerBonus">파워 보너스 증가</Checkbox>
-              <Checkbox value="gutsBonus">근성 보너스 증가</Checkbox>
-              <Checkbox value="wizdomBonus">지능 보너스 증가</Checkbox>
-              <Checkbox value="specialty">특기율 증가</Checkbox>
-            </Stack>
-          </CheckboxGroup>
-        </Stack>
+      <Stack spacing={4} direction="column">
+        <FormControl>
+          <FormLabel>카드명</FormLabel>
+          <Select {...register("id", { valueAsNumber: true })}>
+            {db.supportCards
+              .filter((card) => card.release_ko)
+              .map((card) => (
+                <option key={card.support_id} value={card.support_id}>
+                  {renderRarity(card.rarity)} {card.name_ko} (
+                  {renderType(card.type)})
+                </option>
+              ))}
+          </Select>
+        </FormControl>
+        <FormControl>
+          <FormLabel>레벨</FormLabel>
+          <Input {...register("level", { valueAsNumber: true })} />
+        </FormControl>
       </Stack>
     </Box>
   );
