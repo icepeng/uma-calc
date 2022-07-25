@@ -61,7 +61,7 @@ const TrainingPage: React.FC = () => {
       supportCardStates
         .filter((state) => state.id !== undefined)
         .map((state) => loadSupportCard(state.id!, state.level)!),
-    []
+    [supportCardStates]
   );
   const [statBonus, setStatBonus] = React.useState<StatBonus>({
     speed: 0,
@@ -121,7 +121,6 @@ const TrainingPage: React.FC = () => {
 
   const handleSupportCardChange =
     (index: number) => (form: { id: number; level: number }) => {
-      console.log(form);
       setSupportCardStates([
         ...supportCardStates.slice(0, index),
         form,

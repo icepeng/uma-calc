@@ -2,13 +2,17 @@ import {
   Box,
   FormControl,
   FormLabel,
-  Input,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
   Select,
   Stack,
 } from "@chakra-ui/react";
 import { db } from "@uma-calc/core";
 import React, { useEffect } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 
 function renderRarity(rarity: number) {
   if (rarity === 1) {
@@ -45,10 +49,28 @@ function renderType(type: string) {
   return "?";
 }
 
+const sortedCards = db.supportCards
+  .filter((card) => card.release_ko)
+  .sort((a, b) => {
+    const rarityComp = b.rarity - a.rarity;
+    if (rarityComp !== 0) {
+      return rarityComp;
+    }
+
+    const typeComp = b.type.localeCompare(a.type);
+    if (typeComp !== 0) {
+      return typeComp;
+    }
+
+    return b.name_ko.localeCompare(a.type);
+  });
+
 const SupportCardForm: React.FC<{
   onChange?: (form: { id: number; level: number }) => void;
 }> = ({ onChange }) => {
-  const { register, control } = useForm<{ id: number; level: number }>();
+  const { register, control } = useForm<{ id: number; level: number }>({
+    defaultValues: { level: 1 },
+  });
   const value = useWatch({ control });
 
   useEffect(() => {
@@ -63,19 +85,36 @@ const SupportCardForm: React.FC<{
         <FormControl>
           <FormLabel>카드명</FormLabel>
           <Select {...register("id", { valueAsNumber: true })}>
-            {db.supportCards
-              .filter((card) => card.release_ko)
-              .map((card) => (
-                <option key={card.support_id} value={card.support_id}>
-                  {renderRarity(card.rarity)} {card.name_ko} (
-                  {renderType(card.type)})
-                </option>
-              ))}
+            <option value={undefined}>-</option>
+            {sortedCards.map((card) => (
+              <option key={card.support_id} value={card.support_id}>
+                {renderRarity(card.rarity)} {card.name_ko} (
+                {renderType(card.type)})
+              </option>
+            ))}
           </Select>
         </FormControl>
         <FormControl>
           <FormLabel>레벨</FormLabel>
-          <Input {...register("level", { valueAsNumber: true })} />
+          <Controller
+            control={control}
+            name="level"
+            render={({ field: { ref, onChange, ...restField } }) => (
+              <NumberInput
+                {...restField}
+                onChange={(value) => onChange(+value)}
+                size="sm"
+                min={1}
+                max={50}
+              >
+                <NumberInputField ref={ref} />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+            )}
+          />
         </FormControl>
       </Stack>
     </Box>

@@ -63,7 +63,7 @@ export function bonusResolver(
   const table = bonusEffect.slice(1);
   const interpolated = interpolation(table);
 
-  return interpolated[level];
+  return interpolated[Math.min(level, interpolated.length - 1)];
 }
 
 export function loadSupportCard(
