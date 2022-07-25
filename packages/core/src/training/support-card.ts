@@ -4,7 +4,7 @@ export interface SupportCard {
   name: string;
   type: SupportType;
   trainingBonus: number;
-  conditionBonus: number;
+  motivationBonus: number;
   friendshipBonus: number;
   statBonus: Stat;
   specialty: number;
@@ -16,7 +16,7 @@ const emptySupportCard: SupportCard = {
   name: "",
   type: "speed",
   trainingBonus: 0,
-  conditionBonus: 0,
+  motivationBonus: 0,
   friendshipBonus: 1,
   statBonus: Stat({}),
   specialty: 0,

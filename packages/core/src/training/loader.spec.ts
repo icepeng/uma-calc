@@ -1,7 +1,7 @@
 import { bonusResolver } from "./loader";
 
 describe("bonusResolver", () => {
-  it("should calculate conditionBonus from effects", () => {
+  it("should calculate motivationBonus from effects", () => {
     // given
     const effects: number[][] = [
       // 키타산 블랙 SSR
@@ -17,9 +17,9 @@ describe("bonusResolver", () => {
       [19, -1, -1, -1, -1, -1, -1, -1, -1, -1, 40, 80],
     ];
     // when
-    const conditionBonus = bonusResolver("motivationBonus", effects, 41);
+    const motivationBonus = bonusResolver("motivationBonus", effects, 41);
 
     // then
-    expect(conditionBonus).toBe(27);
+    expect(motivationBonus).toBe(27);
   });
 });

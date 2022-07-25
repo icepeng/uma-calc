@@ -12,7 +12,7 @@ describe("getTrainingStat", () => {
         type: "speed",
         trainingBonus: 0.15,
         friendshipBonus: 1.25,
-        conditionBonus: 0.3,
+        motivationBonus: 0.3,
         statBonus: Stat({
           power: 1,
         }),
@@ -23,7 +23,7 @@ describe("getTrainingStat", () => {
         type: "speed",
         trainingBonus: 0.1,
         friendshipBonus: 1.2,
-        conditionBonus: 0.45,
+        motivationBonus: 0.45,
         statBonus: Stat({
           speed: 1,
         }),
@@ -34,7 +34,7 @@ describe("getTrainingStat", () => {
         type: "speed",
         trainingBonus: 0.05,
         friendshipBonus: 1.2,
-        conditionBonus: 0.65,
+        motivationBonus: 0.65,
         statBonus: Stat({
           speed: 1,
         }),
@@ -45,7 +45,7 @@ describe("getTrainingStat", () => {
         type: "speed",
         trainingBonus: 0,
         friendshipBonus: 1.27,
-        conditionBonus: 0.48,
+        motivationBonus: 0.48,
         statBonus: Stat({
           skillPoint: 1,
         }),
@@ -58,7 +58,7 @@ describe("getTrainingStat", () => {
       power: 1.1,
       stamina: 1,
       guts: 1,
-      intellect: 1,
+      wizdom: 1,
     };
     // when
     const stat = getTrainingStat(

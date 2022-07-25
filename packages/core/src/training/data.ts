@@ -5,7 +5,7 @@ export const trainingTypes: TrainingType[] = [
   "stamina",
   "power",
   "guts",
-  "intellect",
+  "wizdom",
 ];
 
 export const trainingTable: Record<TrainingType, Record<number, Stat>> = {
@@ -122,29 +122,29 @@ export const trainingTable: Record<TrainingType, Record<number, Stat>> = {
       skillPoint: 2,
     }),
   },
-  intellect: {
+  wizdom: {
     1: Stat({
-      intellect: 9,
+      wizdom: 9,
       speed: 2,
       skillPoint: 2,
     }),
     2: Stat({
-      intellect: 10,
+      wizdom: 10,
       speed: 2,
       skillPoint: 2,
     }),
     3: Stat({
-      intellect: 11,
+      wizdom: 11,
       speed: 2,
       skillPoint: 2,
     }),
     4: Stat({
-      intellect: 12,
+      wizdom: 12,
       speed: 3,
       skillPoint: 2,
     }),
     5: Stat({
-      intellect: 13,
+      wizdom: 13,
       speed: 4,
       skillPoint: 2,
     }),

@@ -7,13 +7,13 @@ const supportCards: SupportCard[] = [
     specialty: 45,
     trainingBonus: 0.05,
     friendshipBonus: 1.18,
-    conditionBonus: 0.26,
+    motivationBonus: 0.26,
     statBonus: {
       speed: 1,
       stamina: 0,
       power: 0,
       guts: 0,
-      intellect: 0,
+      wizdom: 0,
       skillPoint: 0,
     },
   },
@@ -23,13 +23,13 @@ const supportCards: SupportCard[] = [
     specialty: 30,
     trainingBonus: 0.05,
     friendshipBonus: 1.35,
-    conditionBonus: 0.3,
+    motivationBonus: 0.3,
     statBonus: {
       speed: 1,
       stamina: 0,
       power: 0,
       guts: 0,
-      intellect: 0,
+      wizdom: 0,
       skillPoint: 0,
     },
   },
@@ -39,13 +39,13 @@ const supportCards: SupportCard[] = [
     specialty: 35,
     trainingBonus: 0.05,
     friendshipBonus: 1.2,
-    conditionBonus: 0.62,
+    motivationBonus: 0.62,
     statBonus: {
       speed: 0,
       stamina: 0,
       power: 0,
       guts: 0,
-      intellect: 0,
+      wizdom: 0,
       skillPoint: 0,
     },
   },
@@ -55,13 +55,13 @@ const supportCards: SupportCard[] = [
     specialty: 70,
     trainingBonus: 0.05,
     friendshipBonus: 1.2,
-    conditionBonus: 0.4,
+    motivationBonus: 0.4,
     statBonus: {
       speed: 0,
       stamina: 1,
       power: 0,
       guts: 0,
-      intellect: 0,
+      wizdom: 0,
       skillPoint: 0,
     },
   },
@@ -71,13 +71,13 @@ const supportCards: SupportCard[] = [
     specialty: 40,
     trainingBonus: 0.1,
     friendshipBonus: 1.32,
-    conditionBonus: 0,
+    motivationBonus: 0,
     statBonus: {
       speed: 0,
       stamina: 0,
       power: 0,
       guts: 0,
-      intellect: 0,
+      wizdom: 0,
       skillPoint: 0,
     },
   },
@@ -87,26 +87,26 @@ const supportCards: SupportCard[] = [
     specialty: 0,
     trainingBonus: 0.1,
     friendshipBonus: 1,
-    conditionBonus: 0,
+    motivationBonus: 0,
     statBonus: {
       speed: 0,
       stamina: 0,
       power: 0,
       guts: 0,
-      intellect: 0,
+      wizdom: 0,
       skillPoint: 0,
     },
   },
 ];
 
-function run(target: TrainingType, level: number, condition: number) {
+function run(target: TrainingType, level: number, motivation: number) {
   const result = getAllCases(
     supportCards,
-    { speed: 1, stamina: 1, power: 1, guts: 1, intellect: 1 },
+    { speed: 1, stamina: 1, power: 1, guts: 1, wizdom: 1 },
     [],
     target,
     level,
-    condition
+    motivation
   );
 
   const avg = result.reduce((sum, { p, stat }) => {
@@ -115,7 +115,7 @@ function run(target: TrainingType, level: number, condition: number) {
       stamina: sum.stamina + stat.stamina * p,
       power: sum.power + stat.power * p,
       guts: sum.guts + stat.guts * p,
-      intellect: sum.intellect + stat.intellect * p,
+      wizdom: sum.wizdom + stat.wizdom * p,
       skillPoint: sum.skillPoint + stat.skillPoint * p,
     };
   }, Stat({}));
@@ -131,4 +131,4 @@ function run(target: TrainingType, level: number, condition: number) {
 run("speed", 1, 0.1);
 run("stamina", 3, 0.1);
 run("power", 1, 0.1);
-run("intellect", 2, 0.1);
+run("wizdom", 2, 0.1);

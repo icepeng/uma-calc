@@ -9,7 +9,7 @@ export function getTrainingStat(
   friendshipCards: string[],
   target: TrainingType,
   level: number,
-  condition: number
+  motivation: number
 ): Stat {
   const friendshipSet = new Set(friendshipCards);
   const baseStat = supportCards
@@ -38,24 +38,24 @@ export function getTrainingStat(
     1
   );
 
-  const conditionBonus = Math.max(
+  const motivationBonus = Math.max(
     1 +
-      condition *
-        supportCards.reduce((sum, card) => sum + card.conditionBonus, 1),
-    1 + condition
+      motivation *
+        supportCards.reduce((sum, card) => sum + card.motivationBonus, 1),
+    1 + motivation
   );
 
   const countBonus = 1 + 0.05 * supportCards.length;
 
   const totalBonus =
-    friendshipBonus * trainingBonus * conditionBonus * countBonus;
+    friendshipBonus * trainingBonus * motivationBonus * countBonus;
 
   return {
     speed: Math.floor(baseStat.speed * bonus.speed * totalBonus),
     stamina: Math.floor(baseStat.stamina * bonus.stamina * totalBonus),
     power: Math.floor(baseStat.power * bonus.power * totalBonus),
     guts: Math.floor(baseStat.guts * bonus.guts * totalBonus),
-    intellect: Math.floor(baseStat.intellect * bonus.intellect * totalBonus),
+    wizdom: Math.floor(baseStat.wizdom * bonus.wizdom * totalBonus),
     skillPoint: Math.floor(baseStat.skillPoint * totalBonus),
   };
 }
@@ -76,7 +76,7 @@ export function getAllCases(
   friendshipCards: string[],
   target: TrainingType,
   level: number,
-  condition: number
+  motivation: number
 ) {
   function rec(
     cards: SupportCard[],
@@ -90,7 +90,7 @@ export function getAllCases(
         friendshipCards,
         target,
         level,
-        condition
+        motivation
       );
       return [
         {

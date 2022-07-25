@@ -3,7 +3,7 @@ export interface Stat {
   stamina: number;
   power: number;
   guts: number;
-  intellect: number;
+  wizdom: number;
   skillPoint: number;
 }
 
@@ -14,7 +14,7 @@ const emptyStat: Stat = {
   stamina: 0,
   power: 0,
   guts: 0,
-  intellect: 0,
+  wizdom: 0,
   skillPoint: 0,
 };
 
@@ -31,7 +31,7 @@ export function addStat(a: Stat, b: Stat): Stat {
     stamina: a.stamina + b.stamina,
     power: a.power + b.power,
     guts: a.guts + b.guts,
-    intellect: a.intellect + b.intellect,
+    wizdom: a.wizdom + b.wizdom,
     skillPoint: a.skillPoint + b.skillPoint,
   }
 }

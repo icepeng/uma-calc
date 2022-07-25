@@ -3,5 +3,5 @@ export interface StatBonus {
   stamina: number;
   power: number;
   guts: number;
-  intellect: number;
+  wizdom: number;
 }

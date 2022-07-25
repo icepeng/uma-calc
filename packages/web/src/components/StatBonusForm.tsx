@@ -20,7 +20,7 @@ const StatBonusForm: React.FC<{
   const [stamina, setStamina] = React.useState<number>(0);
   const [power, setPower] = React.useState<number>(0);
   const [guts, setGuts] = React.useState<number>(0);
-  const [intellect, setIntellect] = React.useState<number>(0);
+  const [wizdom, setWizdom] = React.useState<number>(0);
 
   const buildStatBonus = (): StatBonus => {
     return {
@@ -28,13 +28,13 @@ const StatBonusForm: React.FC<{
       stamina: 1 + stamina / 100,
       power: 1 + power / 100,
       guts: 1 + guts / 100,
-      intellect: 1 + intellect / 100,
+      wizdom: 1 + wizdom / 100,
     };
   };
 
   React.useEffect(() => {
     onStatBonusChange?.(buildStatBonus());
-  }, [speed, stamina, power, guts, intellect]);
+  }, [speed, stamina, power, guts, wizdom]);
 
   return (
     <Box padding={4} borderColor="gray.100" borderWidth={1} borderRadius={4}>
@@ -109,8 +109,8 @@ const StatBonusForm: React.FC<{
         <FormControl>
           <FormLabel>지능%</FormLabel>
           <NumberInput
-            value={intellect}
-            onChange={(_, value) => setIntellect(value ?? 0)}
+            value={wizdom}
+            onChange={(_, value) => setWizdom(value ?? 0)}
             size="sm"
             min={0}
             max={30}

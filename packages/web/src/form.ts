@@ -5,7 +5,7 @@ export interface SupportCardFormGroup {
   type: SupportType;
   trainingBonus: number;
   friendshipBonus: number;
-  conditionBonus: number;
+  motivationBonus: number;
   statBonus: keyof Stat | undefined;
   specialty: number;
   uniqueEffects: string[];
@@ -16,7 +16,7 @@ export function buildSupportCard({
   type,
   trainingBonus,
   friendshipBonus,
-  conditionBonus,
+  motivationBonus,
   statBonus,
   specialty,
   uniqueEffects,
@@ -30,17 +30,17 @@ export function buildSupportCard({
     friendshipBonus:
       (1 + friendshipBonus / 100) *
       (1 + +uniqueEffects.includes("friendshipBonus") * 0.1),
-    conditionBonus:
-      conditionBonus / 100 + +uniqueEffects.includes("conditionBonus") * 0.15,
+    motivationBonus:
+      motivationBonus / 100 + +uniqueEffects.includes("motivationBonus") * 0.15,
     statBonus: Stat({
       speed: +(statBonus === "speed") + +uniqueEffects.includes("speedBonus"),
       stamina:
         +(statBonus === "stamina") + +uniqueEffects.includes("staminaBonus"),
       power: +(statBonus === "power") + +uniqueEffects.includes("powerBonus"),
       guts: +(statBonus === "guts") + +uniqueEffects.includes("gutsBonus"),
-      intellect:
-        +(statBonus === "intellect") +
-        +uniqueEffects.includes("intellectBonus"),
+      wizdom:
+        +(statBonus === "wizdom") +
+        +uniqueEffects.includes("wizdomBonus"),
       skillPoint:
         +(statBonus === "skillPoint") +
         +uniqueEffects.includes("skillPointBonus"),

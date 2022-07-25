@@ -31,7 +31,7 @@ const TrainingPage: React.FC = () => {
       type: "speed",
       trainingBonus: 5,
       friendshipBonus: 18,
-      conditionBonus: 26,
+      motivationBonus: 26,
       statBonus: undefined,
       specialty: 45,
       uniqueEffects: ["speedBonus"],
@@ -41,7 +41,7 @@ const TrainingPage: React.FC = () => {
       type: "speed",
       trainingBonus: 0,
       friendshipBonus: 35,
-      conditionBonus: 30,
+      motivationBonus: 30,
       statBonus: "speed",
       specialty: 30,
       uniqueEffects: ["trainingBonus"],
@@ -51,17 +51,17 @@ const TrainingPage: React.FC = () => {
       type: "speed",
       trainingBonus: 5,
       friendshipBonus: 20,
-      conditionBonus: 47,
+      motivationBonus: 47,
       statBonus: undefined,
       specialty: 35,
-      uniqueEffects: ["conditionBonus"],
+      uniqueEffects: ["motivationBonus"],
     },
     {
       name: "맨하탄 카페",
       type: "stamina",
       trainingBonus: 0,
       friendshipBonus: 20,
-      conditionBonus: 40,
+      motivationBonus: 40,
       statBonus: "stamina",
       specialty: 50,
       uniqueEffects: ["specialty", "trainingBonus"],
@@ -71,7 +71,7 @@ const TrainingPage: React.FC = () => {
       type: "stamina",
       trainingBonus: 10,
       friendshipBonus: 20,
-      conditionBonus: 0,
+      motivationBonus: 0,
       statBonus: undefined,
       specialty: 20,
       uniqueEffects: ["specialty", "friendshipBonus"],
@@ -81,7 +81,7 @@ const TrainingPage: React.FC = () => {
       type: "friend",
       trainingBonus: 10,
       friendshipBonus: 0,
-      conditionBonus: 0,
+      motivationBonus: 0,
       statBonus: undefined,
       specialty: 0,
       uniqueEffects: [],
@@ -92,13 +92,13 @@ const TrainingPage: React.FC = () => {
     stamina: 0,
     power: 0,
     guts: 0,
-    intellect: 0,
+    wizdom: 0,
   });
   const [trainingLevels, setTrainingLevels] = React.useState<
     Record<TrainingType, number>
-  >({ speed: 1, stamina: 1, power: 1, guts: 1, intellect: 1 });
+  >({ speed: 1, stamina: 1, power: 1, guts: 1, wizdom: 1 });
   const [friendshipCards, setFriendshipCards] = React.useState<string[]>([]);
-  const [condition, setCondition] = React.useState<number>(0.2);
+  const [motivation, setMotivation] = React.useState<number>(0.2);
 
   const summary: Record<string, { p5: Stat; p10: Stat; p25: Stat; p50: Stat }> =
     React.useMemo(() => {
@@ -110,7 +110,7 @@ const TrainingPage: React.FC = () => {
             friendshipCards,
             training,
             trainingLevels[training],
-            condition
+            motivation
           ).sort((a, b) => b.stat[training] - a.stat[training]);
 
           const cumulated = allCases.reduce(
@@ -141,7 +141,7 @@ const TrainingPage: React.FC = () => {
           ];
         })
       );
-    }, [supportCards, statBonus, trainingLevels, friendshipCards, condition]);
+    }, [supportCards, statBonus, trainingLevels, friendshipCards, motivation]);
 
   const handleSupportCardChange =
     (index: number) => (form: SupportCardFormGroup) => {
@@ -204,8 +204,8 @@ const TrainingPage: React.FC = () => {
           평균 스탯
         </Heading>
         <Select
-          value={condition}
-          onChange={(e) => setCondition(+e.currentTarget.value)}
+          value={motivation}
+          onChange={(e) => setMotivation(+e.currentTarget.value)}
         >
           <option value={0.2}>최상</option>
           <option value={0.1}>양호</option>
