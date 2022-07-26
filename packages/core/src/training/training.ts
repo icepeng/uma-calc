@@ -57,7 +57,7 @@ export function getTrainingStat(
     ),
     power: Math.floor(baseStat.power * (1 + bonus.power / 100) * totalBonus),
     guts: Math.floor(baseStat.guts * (1 + bonus.guts / 100) * totalBonus),
-    wizdom: Math.floor(baseStat.wizdom * (1 + bonus.wizdom / 100) * totalBonus),
+    intelligence: Math.floor(baseStat.intelligence * (1 + bonus.intelligence / 100) * totalBonus),
     skillPoint: Math.floor(baseStat.skillPoint * totalBonus),
   };
 }

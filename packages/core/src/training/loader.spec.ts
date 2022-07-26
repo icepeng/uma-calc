@@ -46,7 +46,7 @@ describe("loadSupportCard", () => {
         skillPoint: 1,
         speed: 0,
         stamina: 0,
-        wizdom: 0,
+        intelligence: 0,
       },
       specialty: 50,
     });

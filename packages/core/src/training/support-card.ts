@@ -11,20 +11,3 @@ export interface SupportCard {
 }
 
 export type SupportType = TrainingType | "friend";
-
-const emptySupportCard: SupportCard = {
-  name: "",
-  type: "speed",
-  trainingBonus: 0,
-  motivationBonus: 0,
-  friendshipBonus: 1,
-  statBonus: Stat({}),
-  specialty: 0,
-};
-
-export function SupportCard(obj: Partial<SupportCard>) {
-  return {
-    ...emptySupportCard,
-    ...obj,
-  };
-}

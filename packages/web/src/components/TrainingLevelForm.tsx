@@ -14,13 +14,13 @@ import { TrainingType } from "@uma-calc/core";
 import React from "react";
 
 const TrainingLevelForm: React.FC<{
-  onChange?: (traningLevels: Record<TrainingType, number>) => void;
+  onChange?: (trainingLevels: Record<TrainingType, number>) => void;
 }> = ({ onChange }) => {
   const [speed, setSpeed] = React.useState<number>(1);
   const [stamina, setStamina] = React.useState<number>(1);
   const [power, setPower] = React.useState<number>(1);
   const [guts, setGuts] = React.useState<number>(1);
-  const [wizdom, setWizdom] = React.useState<number>(1);
+  const [intelligence, setIntelligence] = React.useState<number>(1);
 
   React.useEffect(() => {
     onChange?.({
@@ -28,9 +28,9 @@ const TrainingLevelForm: React.FC<{
       stamina,
       power,
       guts,
-      wizdom,
+      intelligence,
     });
-  }, [speed, stamina, power, guts, wizdom]);
+  }, [speed, stamina, power, guts, intelligence]);
 
   return (
     <Box padding={4} borderColor="gray.100" borderWidth={1} borderRadius={4}>
@@ -105,8 +105,8 @@ const TrainingLevelForm: React.FC<{
         <FormControl>
           <FormLabel>지능</FormLabel>
           <NumberInput
-            value={wizdom}
-            onChange={(_, value) => setWizdom(value ?? 0)}
+            value={intelligence}
+            onChange={(_, value) => setIntelligence(value ?? 0)}
             size="sm"
             min={1}
             max={5}

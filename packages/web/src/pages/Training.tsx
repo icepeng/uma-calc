@@ -15,8 +15,10 @@ import {
   Wrap,
 } from "@chakra-ui/react";
 import {
+  addStat,
   getAllCases,
   loadSupportCard,
+  scalaProductStat,
   Stat,
   StatBonus,
   TrainingType,
@@ -33,27 +35,27 @@ const TrainingPage: React.FC = () => {
   >([
     {
       id: undefined,
-      level: 0,
+      level: 50,
     },
     {
       id: undefined,
-      level: 0,
+      level: 50,
     },
     {
       id: undefined,
-      level: 0,
+      level: 50,
     },
     {
       id: undefined,
-      level: 0,
+      level: 50,
     },
     {
       id: undefined,
-      level: 0,
+      level: 50,
     },
     {
       id: undefined,
-      level: 0,
+      level: 50,
     },
   ]);
   const supportCards = React.useMemo(
@@ -68,60 +70,67 @@ const TrainingPage: React.FC = () => {
     stamina: 0,
     power: 0,
     guts: 0,
-    wizdom: 0,
+    intelligence: 0,
   });
   const [trainingLevels, setTrainingLevels] = React.useState<
     Record<TrainingType, number>
-  >({ speed: 1, stamina: 1, power: 1, guts: 1, wizdom: 1 });
+  >({ speed: 1, stamina: 1, power: 1, guts: 1, intelligence: 1 });
   const [friendshipCards, setFriendshipCards] = React.useState<string[]>([]);
   const [motivation, setMotivation] = React.useState<number>(20);
 
-  const summary: Record<string, { p5: Stat; p10: Stat; p25: Stat; p50: Stat }> =
-    React.useMemo(() => {
-      return Object.fromEntries(
-        trainingTypes.map((training) => {
-          const allCases = getAllCases(
-            supportCards,
-            statBonus,
-            friendshipCards,
-            training,
-            trainingLevels[training],
-            motivation
-          ).sort((a, b) => b.stat[training] - a.stat[training]);
+  const summary: Record<
+    string,
+    { p5: Stat; p10: Stat; p25: Stat; p50: Stat; avg: Stat }
+  > = React.useMemo(() => {
+    return Object.fromEntries(
+      trainingTypes.map((training) => {
+        const allCases = getAllCases(
+          supportCards,
+          statBonus,
+          friendshipCards,
+          training,
+          trainingLevels[training],
+          motivation
+        ).sort((a, b) => b.stat[training] - a.stat[training]);
 
-          const cumulated = allCases.reduce(
-            (prev, curr, i) => [
-              ...prev,
-              {
-                stat: curr.stat,
-                p: curr.p,
-                pCum: (prev[i - 1]?.pCum ?? 0) + curr.p,
-              },
-            ],
-            [] as { stat: Stat; p: number; pCum: number }[]
-          );
-
-          const p5 = cumulated.find((x) => x.pCum > 0.05)!.stat;
-          const p10 = cumulated.find((x) => x.pCum > 0.1)!.stat;
-          const p25 = cumulated.find((x) => x.pCum > 0.25)!.stat;
-          const p50 = cumulated.find((x) => x.pCum > 0.5)!.stat;
-
-          return [
-            training,
+        const cumulated = allCases.reduce(
+          (prev, curr, i) => [
+            ...prev,
             {
-              p5,
-              p10,
-              p25,
-              p50,
+              stat: curr.stat,
+              p: curr.p,
+              pCum: (prev[i - 1]?.pCum ?? 0) + curr.p,
             },
-          ];
-        })
-      );
-    }, [supportCards, statBonus, trainingLevels, friendshipCards, motivation]);
+          ],
+          [] as { stat: Stat; p: number; pCum: number }[]
+        );
+
+        const p5 = cumulated.find((x) => x.pCum > 0.05)!.stat;
+        const p10 = cumulated.find((x) => x.pCum > 0.1)!.stat;
+        const p25 = cumulated.find((x) => x.pCum > 0.25)!.stat;
+        const p50 = cumulated.find((x) => x.pCum > 0.5)!.stat;
+        const avg = cumulated.reduce(
+          (sum, x) => addStat(sum, scalaProductStat(x.stat, x.p)),
+          Stat({})
+        );
+
+        return [
+          training,
+          {
+            p5,
+            p10,
+            p25,
+            p50,
+            avg,
+          },
+        ];
+      })
+    );
+  }, [supportCards, statBonus, trainingLevels, friendshipCards, motivation]);
 
   const summary2: Record<
     string,
-    { p5: number; p10: number; p25: number; p50: number }
+    { p5: number; p10: number; p25: number; p50: number; avg: number }
   > = React.useMemo(() => {
     return Object.fromEntries(
       trainingTypes.map((training) => {
@@ -154,6 +163,7 @@ const TrainingPage: React.FC = () => {
         const p10 = cumulated.find((x) => x.pCum > 0.1)!.total;
         const p25 = cumulated.find((x) => x.pCum > 0.25)!.total;
         const p50 = cumulated.find((x) => x.pCum > 0.5)!.total;
+        const avg = cumulated.reduce((sum, x) => sum + x.total * x.p, 0);
 
         return [
           training,
@@ -162,6 +172,7 @@ const TrainingPage: React.FC = () => {
             p10,
             p25,
             p50,
+            avg,
           },
         ];
       })
@@ -244,7 +255,7 @@ const TrainingPage: React.FC = () => {
             <Table variant="simple">
               <Thead>
                 <Tr>
-                  <Th>누적확률</Th>
+                  <Th></Th>
                   <Th>스피드</Th>
                   <Th>스태미나</Th>
                   <Th>파워</Th>
@@ -254,25 +265,33 @@ const TrainingPage: React.FC = () => {
               </Thead>
               <Tbody>
                 <Tr>
-                  <Td>5%</Td>
+                  <Td>평균</Td>
+                  {trainingTypes.map((training) => (
+                    <Td key={training}>
+                      {summary[training].avg[training].toFixed(1)}
+                    </Td>
+                  ))}
+                </Tr>
+                <Tr>
+                  <Td>상위 5%</Td>
                   {trainingTypes.map((training) => (
                     <Td key={training}>{summary[training].p5[training]}</Td>
                   ))}
                 </Tr>
                 <Tr>
-                  <Td>10%</Td>
+                  <Td>상위 10%</Td>
                   {trainingTypes.map((training) => (
                     <Td key={training}>{summary[training].p10[training]}</Td>
                   ))}
                 </Tr>
                 <Tr>
-                  <Td>25%</Td>
+                  <Td>상위 25%</Td>
                   {trainingTypes.map((training) => (
                     <Td key={training}>{summary[training].p25[training]}</Td>
                   ))}
                 </Tr>
                 <Tr>
-                  <Td>50%</Td>
+                  <Td>상위 50%</Td>
                   {trainingTypes.map((training) => (
                     <Td key={training}>{summary[training].p50[training]}</Td>
                   ))}
@@ -303,6 +322,12 @@ const TrainingPage: React.FC = () => {
                 </Tr>
               </Thead>
               <Tbody>
+                <Tr>
+                  <Td>평균</Td>
+                  {trainingTypes.map((training) => (
+                    <Td key={training}>{summary2[training].avg.toFixed(1)}</Td>
+                  ))}
+                </Tr>
                 <Tr>
                   <Td>5%</Td>
                   {trainingTypes.map((training) => (

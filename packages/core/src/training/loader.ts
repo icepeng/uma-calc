@@ -44,7 +44,7 @@ const effectMap = {
   staminaBonus: 4,
   powerBonus: 5,
   gutsBonus: 6,
-  wizdomBonus: 7,
+  intelligenceBonus: 7,
   trainingBonus: 8,
   specialty: 19,
   skillPointBonus: 30,
@@ -127,9 +127,9 @@ export function loadSupportCard(
       guts:
         bonusResolver("gutsBonus", rawData.effects, level) +
         uniqueBonusResolver("gutsBonus", rawData.unique, level),
-      wizdom:
-        bonusResolver("wizdomBonus", rawData.effects, level) +
-        uniqueBonusResolver("wizdomBonus", rawData.unique, level),
+      intelligence:
+        bonusResolver("intelligenceBonus", rawData.effects, level) +
+        uniqueBonusResolver("intelligenceBonus", rawData.unique, level),
       skillPoint:
         bonusResolver("skillPointBonus", rawData.effects, level) +
         uniqueBonusResolver("skillPointBonus", rawData.unique, level),

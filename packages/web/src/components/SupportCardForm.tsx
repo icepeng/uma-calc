@@ -69,7 +69,7 @@ const SupportCardForm: React.FC<{
   onChange?: (form: { id: number; level: number }) => void;
 }> = ({ onChange }) => {
   const { register, control } = useForm<{ id: number; level: number }>({
-    defaultValues: { level: 1 },
+    defaultValues: { level: 50 },
   });
   const value = useWatch({ control });
 

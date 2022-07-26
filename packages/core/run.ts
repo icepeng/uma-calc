@@ -13,7 +13,7 @@ const supportCards: SupportCard[] = [
       stamina: 0,
       power: 0,
       guts: 0,
-      wizdom: 0,
+      intelligence: 0,
       skillPoint: 0,
     },
   },
@@ -29,7 +29,7 @@ const supportCards: SupportCard[] = [
       stamina: 0,
       power: 0,
       guts: 0,
-      wizdom: 0,
+      intelligence: 0,
       skillPoint: 0,
     },
   },
@@ -45,7 +45,7 @@ const supportCards: SupportCard[] = [
       stamina: 0,
       power: 0,
       guts: 0,
-      wizdom: 0,
+      intelligence: 0,
       skillPoint: 0,
     },
   },
@@ -61,7 +61,7 @@ const supportCards: SupportCard[] = [
       stamina: 1,
       power: 0,
       guts: 0,
-      wizdom: 0,
+      intelligence: 0,
       skillPoint: 0,
     },
   },
@@ -77,7 +77,7 @@ const supportCards: SupportCard[] = [
       stamina: 0,
       power: 0,
       guts: 0,
-      wizdom: 0,
+      intelligence: 0,
       skillPoint: 0,
     },
   },
@@ -93,7 +93,7 @@ const supportCards: SupportCard[] = [
       stamina: 0,
       power: 0,
       guts: 0,
-      wizdom: 0,
+      intelligence: 0,
       skillPoint: 0,
     },
   },
@@ -102,7 +102,7 @@ const supportCards: SupportCard[] = [
 function run(target: TrainingType, level: number, motivation: number) {
   const result = getAllCases(
     supportCards,
-    { speed: 1, stamina: 1, power: 1, guts: 1, wizdom: 1 },
+    { speed: 1, stamina: 1, power: 1, guts: 1, intelligence: 1 },
     [],
     target,
     level,
@@ -115,7 +115,7 @@ function run(target: TrainingType, level: number, motivation: number) {
       stamina: sum.stamina + stat.stamina * p,
       power: sum.power + stat.power * p,
       guts: sum.guts + stat.guts * p,
-      wizdom: sum.wizdom + stat.wizdom * p,
+      intelligence: sum.intelligence + stat.intelligence * p,
       skillPoint: sum.skillPoint + stat.skillPoint * p,
     };
   }, Stat({}));
@@ -131,4 +131,4 @@ function run(target: TrainingType, level: number, motivation: number) {
 run("speed", 1, 0.1);
 run("stamina", 3, 0.1);
 run("power", 1, 0.1);
-run("wizdom", 2, 0.1);
+run("intelligence", 2, 0.1);

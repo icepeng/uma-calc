@@ -58,7 +58,7 @@ describe("getTrainingStat", () => {
       power: 10,
       stamina: 0,
       guts: 0,
-      wizdom: 0,
+      intelligence: 0,
     };
     // when
     const stat = getTrainingStat(

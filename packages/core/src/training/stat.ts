@@ -3,7 +3,7 @@ export interface Stat {
   stamina: number;
   power: number;
   guts: number;
-  wizdom: number;
+  intelligence: number;
   skillPoint: number;
 }
 
@@ -14,7 +14,7 @@ const emptyStat: Stat = {
   stamina: 0,
   power: 0,
   guts: 0,
-  wizdom: 0,
+  intelligence: 0,
   skillPoint: 0,
 };
 
@@ -31,7 +31,18 @@ export function addStat(a: Stat, b: Stat): Stat {
     stamina: a.stamina + b.stamina,
     power: a.power + b.power,
     guts: a.guts + b.guts,
-    wizdom: a.wizdom + b.wizdom,
+    intelligence: a.intelligence + b.intelligence,
     skillPoint: a.skillPoint + b.skillPoint,
-  }
+  };
+}
+
+export function scalaProductStat(stat: Stat, scala: number): Stat {
+  return {
+    speed: stat.speed * scala,
+    stamina: stat.stamina * scala,
+    power: stat.power * scala,
+    guts: stat.guts * scala,
+    intelligence: stat.intelligence * scala,
+    skillPoint: stat.skillPoint * scala,
+  };
 }
