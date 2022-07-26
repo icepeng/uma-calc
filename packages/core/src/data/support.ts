@@ -691,7 +691,7 @@ export const supportCards = [
       [28, 1, -1, -1, -1, 10, -1, -1, -1, 15, -1, -1],
     ],
     hints: { hint_skills: [], hint_others: [] },
-    event_skills: [200432, 200431, 200692, 201611],
+    event_skills: [200432, 200692, 201611],
   },
   {
     url_name: "10022-aoi-kiryuin",
@@ -1964,7 +1964,7 @@ export const supportCards = [
       [28, -1, 1, -1, 5, 5, -1, -1, 10, -1, -1, -1],
     ],
     hints: { hint_skills: [], hint_others: [] },
-    event_skills: [200371, 200462, 200272, 201641, 201631],
+    event_skills: [200372, 200462, 200272, 201641, 201631],
   },
   {
     url_name: "10061-seeking-the-pearl",
@@ -2387,7 +2387,7 @@ export const supportCards = [
       [30, -1, -1, -1, -1, -1, -1, -1, -1, 1, -1, -1],
     ],
     hints: { hint_skills: [], hint_others: [] },
-    event_skills: [200283, 202031, 202032, 200353, 200521, 201591],
+    event_skills: [200283, 202032, 200353, 200521, 201591],
   },
   {
     url_name: "10075-admire-vega",
@@ -3577,6 +3577,7 @@ export const supportCards = [
     type: "intelligence",
     obtained: "story_event",
     release: "2021-03-30",
+    release_ko: "2022-07-25",
     effects: [
       [1, 10, -1, -1, -1, 15, 15, -1, -1, 20, -1, -1],
       [2, -1, -1, 10, -1, 20, 20, -1, -1, 30, -1, -1],
@@ -5706,6 +5707,7 @@ export const supportCards = [
     type: "guts",
     obtained: "story_event",
     release: "2021-03-30",
+    release_ko: "2022-07-25",
     effects: [
       [1, 10, -1, -1, -1, -1, 20, 20, -1, -1, 25, -1],
       [2, -1, -1, -1, -1, -1, -1, -1, -1, -1, 15, 30],
