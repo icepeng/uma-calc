@@ -10,20 +10,20 @@ describe("getTrainingStat", () => {
       {
         name: "키타산 블랙",
         type: "speed",
-        trainingBonus: 0.15,
-        friendshipBonus: 1.25,
-        motivationBonus: 0.3,
+        trainingBonus: 15,
+        friendshipBonus: 25,
+        motivationBonus: 30,
         statBonus: Stat({
           power: 1,
         }),
-        specialty: 100,
+        specialty: 0,
       },
       {
         name: "나리타 타이신",
         type: "speed",
-        trainingBonus: 0.1,
-        friendshipBonus: 1.2,
-        motivationBonus: 0.45,
+        trainingBonus: 10,
+        friendshipBonus: 20,
+        motivationBonus: 45,
         statBonus: Stat({
           speed: 1,
         }),
@@ -32,9 +32,9 @@ describe("getTrainingStat", () => {
       {
         name: "에이신 플래시",
         type: "speed",
-        trainingBonus: 0.05,
-        friendshipBonus: 1.2,
-        motivationBonus: 0.65,
+        trainingBonus: 5,
+        friendshipBonus: 20,
+        motivationBonus: 65,
         statBonus: Stat({
           speed: 1,
         }),
@@ -44,8 +44,8 @@ describe("getTrainingStat", () => {
         name: "사일런스 스즈카",
         type: "speed",
         trainingBonus: 0,
-        friendshipBonus: 1.27,
-        motivationBonus: 0.48,
+        friendshipBonus: 27,
+        motivationBonus: 48,
         statBonus: Stat({
           skillPoint: 1,
         }),
@@ -54,11 +54,11 @@ describe("getTrainingStat", () => {
     ];
 
     const bonus: StatBonus = {
-      speed: 1,
-      power: 1.1,
-      stamina: 1,
-      guts: 1,
-      wizdom: 1,
+      speed: 0,
+      power: 10,
+      stamina: 0,
+      guts: 0,
+      wizdom: 0,
     };
     // when
     const stat = getTrainingStat(
@@ -67,7 +67,7 @@ describe("getTrainingStat", () => {
       ["키타산 블랙", "에이신 플래시", "사일런스 스즈카", "나리타 타이신"],
       "speed",
       5,
-      0.2
+      20
     );
 
     // then

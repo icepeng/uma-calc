@@ -31,18 +31,18 @@ export function getTrainingStat(
 
   const friendshipBonus = supportCards
     .filter((card) => card.type === target && friendshipSet.has(card.name))
-    .reduce((bonus, card) => bonus * card.friendshipBonus, 1);
+    .reduce((bonus, card) => bonus * (1 + card.friendshipBonus / 100), 1);
 
   const trainingBonus = supportCards.reduce(
-    (sum, card) => sum + card.trainingBonus,
+    (sum, card) => sum + card.trainingBonus / 100,
     1
   );
 
   const motivationBonus = Math.max(
     1 +
-      motivation *
-        supportCards.reduce((sum, card) => sum + card.motivationBonus, 1),
-    1 + motivation
+      (motivation / 100) *
+        supportCards.reduce((sum, card) => sum + card.motivationBonus / 100, 1),
+    1 + motivation / 100
   );
 
   const countBonus = 1 + 0.05 * supportCards.length;
@@ -51,11 +51,13 @@ export function getTrainingStat(
     friendshipBonus * trainingBonus * motivationBonus * countBonus;
 
   return {
-    speed: Math.floor(baseStat.speed * bonus.speed * totalBonus),
-    stamina: Math.floor(baseStat.stamina * bonus.stamina * totalBonus),
-    power: Math.floor(baseStat.power * bonus.power * totalBonus),
-    guts: Math.floor(baseStat.guts * bonus.guts * totalBonus),
-    wizdom: Math.floor(baseStat.wizdom * bonus.wizdom * totalBonus),
+    speed: Math.floor(baseStat.speed * (1 + bonus.speed / 100) * totalBonus),
+    stamina: Math.floor(
+      baseStat.stamina * (1 + bonus.stamina / 100) * totalBonus
+    ),
+    power: Math.floor(baseStat.power * (1 + bonus.power / 100) * totalBonus),
+    guts: Math.floor(baseStat.guts * (1 + bonus.guts / 100) * totalBonus),
+    wizdom: Math.floor(baseStat.wizdom * (1 + bonus.wizdom / 100) * totalBonus),
     skillPoint: Math.floor(baseStat.skillPoint * totalBonus),
   };
 }

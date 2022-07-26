@@ -37,9 +37,9 @@ describe("loadSupportCard", () => {
     expect(supportCard).toStrictEqual({
       name: "스윕 토쇼",
       type: "speed",
-      motivationBonus: 0.4,
-      friendshipBonus: 1.3,
-      trainingBonus: 0.05,
+      motivationBonus: 40,
+      friendshipBonus: 30,
+      trainingBonus: 5 + 5,
       statBonus: {
         guts: 0,
         power: 0,

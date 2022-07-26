@@ -24,11 +24,11 @@ const StatBonusForm: React.FC<{
 
   const buildStatBonus = (): StatBonus => {
     return {
-      speed: 1 + speed / 100,
-      stamina: 1 + stamina / 100,
-      power: 1 + power / 100,
-      guts: 1 + guts / 100,
-      wizdom: 1 + wizdom / 100,
+      speed: 1 + speed,
+      stamina: 1 + stamina,
+      power: 1 + power,
+      guts: 1 + guts,
+      wizdom: 1 + wizdom,
     };
   };
 

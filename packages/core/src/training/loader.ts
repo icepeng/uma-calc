@@ -50,6 +50,10 @@ const effectMap = {
   skillPointBonus: 30,
 };
 
+function addMultipliers(a: number, b: number) {
+  return ((100 + a) * (100 + b)) / 100 - 100;
+}
+
 export function bonusResolver(
   type: keyof typeof effectMap,
   effects: number[][],
@@ -66,6 +70,28 @@ export function bonusResolver(
   return interpolated[Math.min(level, interpolated.length - 1)];
 }
 
+export function uniqueBonusResolver(
+  type: keyof typeof effectMap,
+  unique:
+    | { level: number; effects: { type: number; value: number }[] }
+    | undefined,
+  level: number
+) {
+  if (!unique) {
+    return 0;
+  }
+  if (level < unique.level) {
+    return 0;
+  }
+
+  const effect = unique.effects.find((eff) => eff.type === effectMap[type]);
+  if (!effect) {
+    return 0;
+  }
+
+  return effect.value;
+}
+
 export function loadSupportCard(
   id: number,
   level: number
@@ -79,18 +105,38 @@ export function loadSupportCard(
     name: rawData.name_ko,
     type: rawData.type as SupportType,
     motivationBonus:
-      bonusResolver("motivationBonus", rawData.effects, level) / 100,
-    friendshipBonus:
-      bonusResolver("friendshipBonus", rawData.effects, level) / 100 + 1,
-    trainingBonus: bonusResolver("trainingBonus", rawData.effects, level) / 100,
+      bonusResolver("motivationBonus", rawData.effects, level) +
+      uniqueBonusResolver("motivationBonus", rawData.unique, level),
+    friendshipBonus: addMultipliers(
+      bonusResolver("friendshipBonus", rawData.effects, level),
+      uniqueBonusResolver("friendshipBonus", rawData.unique, level)
+    ),
+    trainingBonus:
+      bonusResolver("trainingBonus", rawData.effects, level) +
+      uniqueBonusResolver("trainingBonus", rawData.unique, level),
     statBonus: {
-      speed: bonusResolver("speedBonus", rawData.effects, level),
-      stamina: bonusResolver("staminaBonus", rawData.effects, level),
-      power: bonusResolver("powerBonus", rawData.effects, level),
-      guts: bonusResolver("gutsBonus", rawData.effects, level),
-      wizdom: bonusResolver("wizdomBonus", rawData.effects, level),
-      skillPoint: bonusResolver("skillPointBonus", rawData.effects, level),
+      speed:
+        bonusResolver("speedBonus", rawData.effects, level) +
+        uniqueBonusResolver("speedBonus", rawData.unique, level),
+      stamina:
+        bonusResolver("staminaBonus", rawData.effects, level) +
+        uniqueBonusResolver("staminaBonus", rawData.unique, level),
+      power:
+        bonusResolver("powerBonus", rawData.effects, level) +
+        uniqueBonusResolver("powerBonus", rawData.unique, level),
+      guts:
+        bonusResolver("gutsBonus", rawData.effects, level) +
+        uniqueBonusResolver("gutsBonus", rawData.unique, level),
+      wizdom:
+        bonusResolver("wizdomBonus", rawData.effects, level) +
+        uniqueBonusResolver("wizdomBonus", rawData.unique, level),
+      skillPoint:
+        bonusResolver("skillPointBonus", rawData.effects, level) +
+        uniqueBonusResolver("skillPointBonus", rawData.unique, level),
     },
-    specialty: bonusResolver("specialty", rawData.effects, level),
+    specialty: addMultipliers(
+      bonusResolver("specialty", rawData.effects, level),
+      uniqueBonusResolver("specialty", rawData.unique, level)
+    ),
   };
 }
