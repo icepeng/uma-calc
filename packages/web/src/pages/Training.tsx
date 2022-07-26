@@ -74,7 +74,7 @@ const TrainingPage: React.FC = () => {
     Record<TrainingType, number>
   >({ speed: 1, stamina: 1, power: 1, guts: 1, wizdom: 1 });
   const [friendshipCards, setFriendshipCards] = React.useState<string[]>([]);
-  const [motivation, setMotivation] = React.useState<number>(0.2);
+  const [motivation, setMotivation] = React.useState<number>(20);
 
   const summary: Record<string, { p5: Stat; p10: Stat; p25: Stat; p50: Stat }> =
     React.useMemo(() => {
