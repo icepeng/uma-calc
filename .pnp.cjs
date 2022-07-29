@@ -3891,6 +3891,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@uma-calc/core", "workspace:packages/core"],\
             ["@vitejs/plugin-react", "virtual:fac0569c0d5263b01e0b299d97f64009312048049b97bb2fe4d3041b167a53268a8c23ea600ee346a753dcf1d297d4d865ef509de1fa2240f00ff31c46849e28#npm:2.0.0"],\
             ["framer-motion", "virtual:fac0569c0d5263b01e0b299d97f64009312048049b97bb2fe4d3041b167a53268a8c23ea600ee346a753dcf1d297d4d865ef509de1fa2240f00ff31c46849e28#npm:6.5.1"],\
+            ["korean-regexp", "npm:1.0.9"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:fac0569c0d5263b01e0b299d97f64009312048049b97bb2fe4d3041b167a53268a8c23ea600ee346a753dcf1d297d4d865ef509de1fa2240f00ff31c46849e28#npm:18.2.0"],\
             ["react-hook-form", "virtual:fac0569c0d5263b01e0b299d97f64009312048049b97bb2fe4d3041b167a53268a8c23ea600ee346a753dcf1d297d4d865ef509de1fa2240f00ff31c46849e28#npm:7.33.1"],\
@@ -6263,6 +6264,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/kleur-npm-3.0.3-f6f53649a4-df82cd1e17.zip/node_modules/kleur/",\
           "packageDependencies": [\
             ["kleur", "npm:3.0.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["korean-regexp", [\
+        ["npm:1.0.9", {\
+          "packageLocation": "./.yarn/cache/korean-regexp-npm-1.0.9-8ef6d31f85-235f28c3e7.zip/node_modules/korean-regexp/",\
+          "packageDependencies": [\
+            ["korean-regexp", "npm:1.0.9"]\
           ],\
           "linkType": "HARD"\
         }]\

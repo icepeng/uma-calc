@@ -1,8 +1,12 @@
+import { AddIcon } from '@chakra-ui/icons';
 import {
   Box,
   Checkbox,
+  Center,
   FormControl,
   FormLabel,
+  IconButton,
+  Image,
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInput,
@@ -14,22 +18,12 @@ import {
 import { db } from '@uma-calc/core';
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { handleNumber, renderRarity, renderType } from '../pipe';
+import { handleNumber, renderType } from '../pipe';
 import SupportCardModal from './SupportCardModal';
-
-function renderSupportCard(id: number) {
-  const card = db.supportCards.find((card) => card.support_id === id);
-  if (!card) {
-    return '-';
-  }
-
-  return `${renderRarity(card.rarity)} ${card.name_ko} (${renderType(
-    card.type
-  )})`;
-}
 
 const SupportCardForm: React.FC<{ index: number }> = ({ index }) => {
   const { control, getValues, setValue } = useFormContext();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   function handleModalClose(data?: { id: number }) {
@@ -49,19 +43,35 @@ const SupportCardForm: React.FC<{ index: number }> = ({ index }) => {
     >
       <Stack spacing={4} direction="column">
         <FormControl>
-          <FormLabel>카드명</FormLabel>
-          <Box
-            fontSize={'sm'}
-            paddingX={3}
-            paddingY={1}
-            borderWidth={1}
-            borderRadius={4}
-            cursor={'pointer'}
-            _hover={{ backgroundColor: 'gray.100' }}
-            onClick={onOpen}
-          >
-            {renderSupportCard(getValues(`deck.${index}.id`))}
-          </Box>
+          <FormLabel>서포트 카드</FormLabel>
+          <Center h={'174px'}>
+            <Center w={'150px'} flexDirection={'column'} position={'relative'}>
+              {getValues(`deck.${index}.id`) === -1 ? (
+                <IconButton
+                  aria-label="SelectSupportCard"
+                  onClick={onOpen}
+                  icon={<AddIcon />}
+                />
+              ) : (
+                <Image
+                  boxSize="150px"
+                  alt={getValues(`deck.${index}.id`)?.toString()}
+                  src={`/img/supports/${getValues(`deck.${index}.id`)}.png`}
+                  onClick={onOpen}
+                />
+              )}
+              {
+                db.supportCards.find(
+                  (x) => x.support_id === getValues(`deck.${index}.id`)
+                )?.name_ko
+              }
+              {renderType(
+                db.supportCards.find(
+                  (x) => x.support_id === getValues(`deck.${index}.id`)
+                )?.type!
+              )}
+            </Center>
+          </Center>
           <SupportCardModal
             isOpen={isOpen}
             onClose={handleModalClose}
