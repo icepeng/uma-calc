@@ -12,7 +12,6 @@ import {
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-  Select,
   Stack,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -50,14 +49,11 @@ const StatBonusForm: React.FC<{
     const target_card = sortedPlayableCharacters.find(
       ({ card_id }) => card_id === id
     );
-
-    target_card?.stat_bonus.forEach((stat, i) => {
-      if (i == 0) setSpeed(+stat);
-      if (i == 1) setStamina(+stat);
-      if (i == 2) setPower(+stat);
-      if (i == 3) setGuts(+stat);
-      if (i == 4) setIntelligence(+stat);
-    });
+    setSpeed(target_card?.stat_bonus[0] ?? 0);
+    setStamina(target_card?.stat_bonus[1] ?? 0);
+    setPower(target_card?.stat_bonus[2] ?? 0);
+    setGuts(target_card?.stat_bonus[3] ?? 0);
+    setIntelligence(target_card?.stat_bonus[4] ?? 0);
     setCardId(id);
   }
 
@@ -68,9 +64,11 @@ const StatBonusForm: React.FC<{
     onClose();
   }
 
-  function handleCardChange(event: React.ChangeEvent<HTMLSelectElement>): void {
-    const cardId = +event.target.value;
-    setCard(cardId);
+  function getCardName(id: number) {
+    const targetCard = sortedPlayableCharacters.find((x) => x.card_id === id);
+    return targetCard === undefined
+      ? ""
+      : `${targetCard?.name_ko} ${targetCard?.title_ko}`;
   }
 
   React.useEffect(() => {
@@ -97,20 +95,13 @@ const StatBonusForm: React.FC<{
               borderColor="gray.100"
               borderRadius="4"
               alt={cardId.toString()}
-              src={`/img/${cardId}.png`}
+              src={`/img/characters/${cardId}.png`}
               onClick={onOpen}
             ></Image>
           )}
           <CardModal isOpen={isOpen} onClose={handleModalClose}></CardModal>
         </Center>
-        <Select size={"md"} value={cardId} onChange={handleCardChange}>
-          <option value={0}>-</option>
-          {sortedPlayableCharacters.map((x) => (
-            <option value={x.card_id}>
-              {x.name_ko} {x.title_ko}
-            </option>
-          ))}
-        </Select>
+        <Box padding={4}>{getCardName(cardId)}</Box>
       </Stack>
       <Stack spacing={4} direction="row">
         <FormControl>
