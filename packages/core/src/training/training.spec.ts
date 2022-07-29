@@ -8,7 +8,7 @@ describe("getTrainingStat", () => {
     // given
     const supportCards: SupportCard[] = [
       {
-        name: "키타산 블랙",
+        id: 0, // 키타산 블랙
         type: "speed",
         trainingBonus: 15,
         friendshipBonus: 25,
@@ -19,7 +19,7 @@ describe("getTrainingStat", () => {
         specialty: 0,
       },
       {
-        name: "나리타 타이신",
+        id: 1, // 나리타 타이신
         type: "speed",
         trainingBonus: 10,
         friendshipBonus: 20,
@@ -30,7 +30,7 @@ describe("getTrainingStat", () => {
         specialty: 0,
       },
       {
-        name: "에이신 플래시",
+        id: 2, // 에이신 플래시
         type: "speed",
         trainingBonus: 5,
         friendshipBonus: 20,
@@ -41,7 +41,7 @@ describe("getTrainingStat", () => {
         specialty: 0,
       },
       {
-        name: "사일런스 스즈카",
+        id: 3, // 사일런스 스즈카
         type: "speed",
         trainingBonus: 0,
         friendshipBonus: 27,
@@ -64,7 +64,7 @@ describe("getTrainingStat", () => {
     const stat = getTrainingStat(
       supportCards,
       bonus,
-      ["키타산 블랙", "에이신 플래시", "사일런스 스즈카", "나리타 타이신"],
+      [0, 1, 2, 3],
       "speed",
       5,
       20

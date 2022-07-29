@@ -102,7 +102,7 @@ export function loadSupportCard(
   }
 
   return {
-    name: rawData.name_ko,
+    id: rawData.support_id,
     type: rawData.type as SupportType,
     motivationBonus:
       bonusResolver("motivationBonus", rawData.effects, level) +

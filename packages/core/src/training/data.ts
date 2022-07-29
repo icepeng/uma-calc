@@ -126,27 +126,27 @@ export const trainingTable: Record<TrainingType, Record<number, Stat>> = {
     1: Stat({
       intelligence: 9,
       speed: 2,
-      skillPoint: 2,
+      skillPoint: 4,
     }),
     2: Stat({
       intelligence: 10,
       speed: 2,
-      skillPoint: 2,
+      skillPoint: 4,
     }),
     3: Stat({
       intelligence: 11,
       speed: 2,
-      skillPoint: 2,
+      skillPoint: 4,
     }),
     4: Stat({
       intelligence: 12,
       speed: 3,
-      skillPoint: 2,
+      skillPoint: 4,
     }),
     5: Stat({
       intelligence: 13,
       speed: 4,
-      skillPoint: 2,
+      skillPoint: 4,
     }),
   },
 };

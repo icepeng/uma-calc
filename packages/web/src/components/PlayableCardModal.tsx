@@ -16,9 +16,9 @@ const sortedPlayableCharacters = db.playableCharacters
   .filter((character) => character.release_ko)
   .sort((a, b) => b.release_ko!.localeCompare(a.release_ko!));
 
-const CardModal: React.FC<{
+const PlayableCardModal: React.FC<{
   isOpen: boolean;
-  onClose: (data?: { card_id: number }) => void;
+  onClose: (data?: { id: number }) => void;
 }> = ({ isOpen, onClose }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="lg">
@@ -30,6 +30,7 @@ const CardModal: React.FC<{
           <SimpleGrid columns={3} spacing={2.5} justifyItems="center">
             {sortedPlayableCharacters.map(({ card_id }) => (
               <Image
+                key={card_id}
                 boxSize="150px"
                 border="1px"
                 borderColor="gray.100"
@@ -38,7 +39,7 @@ const CardModal: React.FC<{
                 src={`/img/${card_id}.png`}
                 onClick={() =>
                   onClose({
-                    card_id,
+                    id: card_id,
                   })
                 }
               ></Image>
@@ -50,4 +51,4 @@ const CardModal: React.FC<{
   );
 };
 
-export default CardModal;
+export default PlayableCardModal;

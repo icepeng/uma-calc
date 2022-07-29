@@ -1,7 +1,7 @@
 import { Stat, TrainingType } from "./stat";
 
 export interface SupportCard {
-  name: string;
+  id: number;
   type: SupportType;
   trainingBonus: number; // 합연산
   motivationBonus: number; // 합연산

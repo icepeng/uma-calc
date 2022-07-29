@@ -6,12 +6,12 @@ import { SupportCard } from "./support-card";
 export function getTrainingStat(
   supportCards: SupportCard[],
   bonus: StatBonus,
-  friendshipCards: string[],
+  friendshipCardIds: number[],
   target: TrainingType,
   level: number,
   motivation: number
 ): Stat {
-  const friendshipSet = new Set(friendshipCards);
+  const friendshipSet = new Set(friendshipCardIds);
   const baseStat = supportCards
     .filter((card) => card.statBonus)
     .reduce(
@@ -30,7 +30,7 @@ export function getTrainingStat(
     );
 
   const friendshipBonus = supportCards
-    .filter((card) => card.type === target && friendshipSet.has(card.name))
+    .filter((card) => card.type === target && friendshipSet.has(card.id))
     .reduce((bonus, card) => bonus * (1 + card.friendshipBonus / 100), 1);
 
   const trainingBonus = supportCards.reduce(
@@ -57,7 +57,9 @@ export function getTrainingStat(
     ),
     power: Math.floor(baseStat.power * (1 + bonus.power / 100) * totalBonus),
     guts: Math.floor(baseStat.guts * (1 + bonus.guts / 100) * totalBonus),
-    intelligence: Math.floor(baseStat.intelligence * (1 + bonus.intelligence / 100) * totalBonus),
+    intelligence: Math.floor(
+      baseStat.intelligence * (1 + bonus.intelligence / 100) * totalBonus
+    ),
     skillPoint: Math.floor(baseStat.skillPoint * totalBonus),
   };
 }
@@ -75,7 +77,7 @@ function getTargetRate(card: SupportCard, target: TrainingType) {
 export function getAllCases(
   supportCards: SupportCard[],
   bonus: StatBonus,
-  friendshipCards: string[],
+  friendshipCardIds: number[],
   target: TrainingType,
   level: number,
   motivation: number
@@ -89,7 +91,7 @@ export function getAllCases(
       const stat = getTrainingStat(
         cards,
         bonus,
-        friendshipCards,
+        friendshipCardIds,
         target,
         level,
         motivation

@@ -1,5 +1,6 @@
 import {
   Box,
+  Checkbox,
   FormControl,
   FormLabel,
   NumberDecrementStepper,
@@ -7,105 +8,72 @@ import {
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-  Select,
   Stack,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { db } from "@uma-calc/core";
-import React, { useEffect } from "react";
-import { Controller, useForm, useWatch } from "react-hook-form";
+import React from "react";
+import { Controller, useFormContext } from "react-hook-form";
+import { handleNumber, renderRarity, renderType } from "../pipe";
+import SupportCardModal from "./SupportCardModal";
 
-function renderRarity(rarity: number) {
-  if (rarity === 1) {
-    return "R";
+function renderSupportCard(id: number) {
+  const card = db.supportCards.find((card) => card.support_id === id);
+  if (!card) {
+    return "-";
   }
-  if (rarity === 2) {
-    return "SR";
-  }
-  if (rarity === 3) {
-    return "SSR";
-  }
-  return "?";
+
+  return `${renderRarity(card.rarity)} ${card.name_ko} (${renderType(
+    card.type
+  )})`;
 }
 
-function renderType(type: string) {
-  if (type === "speed") {
-    return "스피드";
-  }
-  if (type === "stamina") {
-    return "스태미너";
-  }
-  if (type === "power") {
-    return "파워";
-  }
-  if (type === "guts") {
-    return "근성";
-  }
-  if (type === "intelligence") {
-    return "지능";
-  }
-  if (type === "friend") {
-    return "친구";
-  }
-  return "?";
-}
+const SupportCardForm: React.FC<{ index: number }> = ({ index }) => {
+  const { register, control, getValues, setValue } = useFormContext();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-const sortedCards = db.supportCards
-  .filter((card) => card.release_ko)
-  .sort((a, b) => {
-    const rarityComp = b.rarity - a.rarity;
-    if (rarityComp !== 0) {
-      return rarityComp;
+  function handleModalClose(data?: { id: number }) {
+    if (data) {
+      setValue(`supportCards[${index}].id`, data.id);
     }
-
-    const typeComp = b.type.localeCompare(a.type);
-    if (typeComp !== 0) {
-      return typeComp;
-    }
-
-    return b.name_ko.localeCompare(a.type);
-  });
-
-const SupportCardForm: React.FC<{
-  onChange?: (form: { id: number; level: number }) => void;
-}> = ({ onChange }) => {
-  const { register, control } = useForm<{ id: number; level: number }>({
-    defaultValues: { level: 50 },
-  });
-  const value = useWatch({ control });
-
-  useEffect(() => {
-    if (value.id && value.level) {
-      onChange?.({ id: value.id, level: value.level });
-    }
-  }, [value]);
+    onClose();
+  }
 
   return (
     <Box padding={4} borderColor="gray.100" borderWidth={1} borderRadius={4}>
       <Stack spacing={4} direction="column">
         <FormControl>
           <FormLabel>카드명</FormLabel>
-          <Select {...register("id", { valueAsNumber: true })}>
-            <option value={undefined}>-</option>
-            {sortedCards.map((card) => (
-              <option key={card.support_id} value={card.support_id}>
-                {renderRarity(card.rarity)} {card.name_ko} (
-                {renderType(card.type)})
-              </option>
-            ))}
-          </Select>
+          <Box
+            fontSize={"sm"}
+            paddingX={3}
+            paddingY={1}
+            borderWidth={1}
+            borderRadius={4}
+            cursor={"pointer"}
+            _hover={{ backgroundColor: "gray.100" }}
+            onClick={onOpen}
+          >
+            {renderSupportCard(getValues(`supportCards[${index}].id`))}
+          </Box>
+          <SupportCardModal
+            isOpen={isOpen}
+            onClose={handleModalClose}
+          ></SupportCardModal>
         </FormControl>
         <FormControl>
           <FormLabel>레벨</FormLabel>
           <Controller
             control={control}
-            name="level"
+            name={`supportCards[${index}].level`}
             render={({ field: { ref, onChange, ...restField } }) => (
               <NumberInput
                 {...restField}
-                onChange={(value) => onChange(+value)}
+                onChange={(value) => onChange(handleNumber(value, 1))}
                 size="sm"
                 min={1}
                 max={50}
+                step={5}
               >
                 <NumberInputField ref={ref} />
                 <NumberInputStepper>
@@ -116,6 +84,9 @@ const SupportCardForm: React.FC<{
             )}
           />
         </FormControl>
+        <Checkbox {...register(`supportCards[${index}].isFriendship`)}>
+          우정 트레이닝
+        </Checkbox>
       </Stack>
     </Box>
   );

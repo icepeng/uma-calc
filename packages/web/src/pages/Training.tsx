@@ -1,7 +1,5 @@
 import {
   Box,
-  Checkbox,
-  CheckboxGroup,
   Heading,
   Select,
   Stack,
@@ -21,62 +19,81 @@ import {
   scalaProductStat,
   Stat,
   StatBonus,
-  TrainingType,
   trainingTypes,
 } from "@uma-calc/core";
 import React from "react";
+import { FormProvider, useForm, useWatch } from "react-hook-form";
 import StatBonusForm from "../components/StatBonusForm";
 import SupportCardForm from "../components/SupportCardForm";
 import TrainingLevelForm from "../components/TrainingLevelForm";
 
 const TrainingPage: React.FC = () => {
-  const [supportCardStates, setSupportCardStates] = React.useState<
-    { id: number | undefined; level: number }[]
-  >([
-    {
-      id: undefined,
-      level: 50,
+  const methods = useForm({
+    defaultValues: {
+      supportCards: [
+        {
+          id: -1,
+          level: 50,
+          isFriendship: false,
+        },
+        {
+          id: -1,
+          level: 50,
+          isFriendship: false,
+        },
+        {
+          id: -1,
+          level: 50,
+          isFriendship: false,
+        },
+        {
+          id: -1,
+          level: 50,
+          isFriendship: false,
+        },
+        {
+          id: -1,
+          level: 50,
+          isFriendship: false,
+        },
+        {
+          id: -1,
+          level: 50,
+          isFriendship: false,
+        },
+      ],
+      statBonus: {
+        speed: 0,
+        stamina: 0,
+        power: 0,
+        guts: 0,
+        intelligence: 0,
+      },
+      trainingLevels: {
+        speed: 1,
+        stamina: 1,
+        power: 1,
+        guts: 1,
+        intelligence: 1,
+      },
+      isSummerTraining: false,
+      motivation: 20,
     },
-    {
-      id: undefined,
-      level: 50,
-    },
-    {
-      id: undefined,
-      level: 50,
-    },
-    {
-      id: undefined,
-      level: 50,
-    },
-    {
-      id: undefined,
-      level: 50,
-    },
-    {
-      id: undefined,
-      level: 50,
-    },
-  ]);
+  });
+
+  const supportCardStates = useWatch({
+    control: methods.control,
+    name: "supportCards",
+  });
+  const formValues = useWatch({ control: methods.control });
+
   const supportCards = React.useMemo(
     () =>
       supportCardStates
-        .filter((state) => state.id !== undefined)
+        .filter((state) => state.id !== -1)
         .map((state) => loadSupportCard(state.id!, state.level)!),
     [supportCardStates]
   );
-  const [statBonus, setStatBonus] = React.useState<StatBonus>({
-    speed: 0,
-    stamina: 0,
-    power: 0,
-    guts: 0,
-    intelligence: 0,
-  });
-  const [trainingLevels, setTrainingLevels] = React.useState<
-    Record<TrainingType, number>
-  >({ speed: 1, stamina: 1, power: 1, guts: 1, intelligence: 1 });
-  const [friendshipCards, setFriendshipCards] = React.useState<string[]>([]);
-  const [motivation, setMotivation] = React.useState<number>(20);
 
   const summary: Record<
     string,
@@ -86,11 +103,15 @@ const TrainingPage: React.FC = () => {
       trainingTypes.map((training) => {
         const allCases = getAllCases(
           supportCards,
-          statBonus,
-          friendshipCards,
+          formValues.statBonus as StatBonus,
+          formValues
+            .supportCards!.filter((card) => card.isFriendship)
+            .map((card) => card.id!),
           training,
-          trainingLevels[training],
-          motivation
+          formValues.isSummerTraining
+            ? 5
+            : formValues.trainingLevels![training]!,
+          formValues.motivation!
         ).sort((a, b) => b.stat[training] - a.stat[training]);
 
         const cumulated = allCases.reduce(
@@ -126,238 +147,137 @@ const TrainingPage: React.FC = () => {
         ];
       })
     );
-  }, [supportCards, statBonus, trainingLevels, friendshipCards, motivation]);
-
-  const summary2: Record<
-    string,
-    { p5: number; p10: number; p25: number; p50: number; avg: number }
-  > = React.useMemo(() => {
-    return Object.fromEntries(
-      trainingTypes.map((training) => {
-        const allCases = getAllCases(
-          supportCards,
-          statBonus,
-          friendshipCards,
-          training,
-          trainingLevels[training],
-          motivation
-        ).sort(
-          (a, b) =>
-            Object.values(b.stat).reduce((sum, x) => sum + x, 0) -
-            Object.values(a.stat).reduce((sum, x) => sum + x, 0)
-        );
-
-        const cumulated = allCases.reduce(
-          (prev, curr, i) => [
-            ...prev,
-            {
-              total: Object.values(curr.stat).reduce((sum, x) => sum + x),
-              p: curr.p,
-              pCum: (prev[i - 1]?.pCum ?? 0) + curr.p,
-            },
-          ],
-          [] as { total: number; p: number; pCum: number }[]
-        );
-
-        const p5 = cumulated.find((x) => x.pCum > 0.05)!.total;
-        const p10 = cumulated.find((x) => x.pCum > 0.1)!.total;
-        const p25 = cumulated.find((x) => x.pCum > 0.25)!.total;
-        const p50 = cumulated.find((x) => x.pCum > 0.5)!.total;
-        const avg = cumulated.reduce((sum, x) => sum + x.total * x.p, 0);
-
-        return [
-          training,
-          {
-            p5,
-            p10,
-            p25,
-            p50,
-            avg,
-          },
-        ];
-      })
-    );
-  }, [supportCards, statBonus, trainingLevels, friendshipCards, motivation]);
-
-  const handleSupportCardChange =
-    (index: number) => (form: { id: number; level: number }) => {
-      setSupportCardStates([
-        ...supportCardStates.slice(0, index),
-        form,
-        ...supportCardStates.slice(index + 1),
-      ]);
-    };
+  }, [supportCards, formValues]);
 
   return (
-    <Stack padding={4} spacing={4} direction="row">
-      <Stack
-        maxW={1044}
-        padding={4}
-        spacing={4}
-        borderColor="gray.100"
-        borderWidth={1}
-        borderRadius={4}
-      >
-        <Wrap spacing={4} direction="row" align="center">
-          <SupportCardForm onChange={handleSupportCardChange(0)} />
-          <SupportCardForm onChange={handleSupportCardChange(1)} />
-          <SupportCardForm onChange={handleSupportCardChange(2)} />
-          <SupportCardForm onChange={handleSupportCardChange(3)} />
-          <SupportCardForm onChange={handleSupportCardChange(4)} />
-          <SupportCardForm onChange={handleSupportCardChange(5)} />
-        </Wrap>
-        <StatBonusForm onStatBonusChange={setStatBonus} />
-        <TrainingLevelForm onChange={setTrainingLevels} />
-        <Box
+    <FormProvider {...methods}>
+      <Stack padding={4} spacing={4} direction="row">
+        <Stack
+          maxW={782}
           padding={4}
+          spacing={4}
           borderColor="gray.100"
           borderWidth={1}
           borderRadius={4}
         >
-          <Heading size={"sm"} marginBottom={4}>
-            우정 트레이닝
-          </Heading>
-          <CheckboxGroup
-            value={friendshipCards}
-            onChange={(value: string[]) => setFriendshipCards(value)}
+          <Wrap spacing={4} direction="row" align="center">
+            <SupportCardForm index={0} />
+            <SupportCardForm index={1} />
+            <SupportCardForm index={2} />
+            <SupportCardForm index={3} />
+            <SupportCardForm index={4} />
+            <SupportCardForm index={5} />
+          </Wrap>
+          <StatBonusForm />
+          <TrainingLevelForm />
+        </Stack>
+        <Stack>
+          <Select {...methods.register("motivation")}>
+            <option value={20}>최상</option>
+            <option value={10}>양호</option>
+            <option value={0}>보통</option>
+            <option value={-10}>저조</option>
+            <option value={-20}>최악</option>
+          </Select>
+          <Box
+            padding={4}
+            borderColor="gray.100"
+            borderWidth={1}
+            borderRadius={4}
           >
-            <Stack spacing={[1, 5]} direction={"row"}>
-              {supportCards.map((card, i) => (
-                <Checkbox key={i} value={card.name}>
-                  {card.name}
-                </Checkbox>
-              ))}
-            </Stack>
-          </CheckboxGroup>
-        </Box>
+            <Heading size={"sm"} marginBottom={4}>
+              평균 스탯 상승량
+            </Heading>
+            <TableContainer>
+              <Table variant="simple">
+                <Thead>
+                  <Tr>
+                    <Th></Th>
+                    <Th>스피드</Th>
+                    <Th>스태미나</Th>
+                    <Th>파워</Th>
+                    <Th>근성</Th>
+                    <Th>지능</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  <Tr>
+                    <Td>스피드</Td>
+                    {trainingTypes.map((training) => (
+                      <Td key={training}>
+                        {summary[training].avg.speed
+                          ? summary[training].avg.speed.toFixed(1)
+                          : "-"}
+                      </Td>
+                    ))}
+                  </Tr>
+                  <Tr>
+                    <Td>스태미나</Td>
+                    {trainingTypes.map((training) => (
+                      <Td key={training}>
+                        {summary[training].avg.stamina
+                          ? summary[training].avg.stamina.toFixed(1)
+                          : "-"}
+                      </Td>
+                    ))}
+                  </Tr>
+                  <Tr>
+                    <Td>파워</Td>
+                    {trainingTypes.map((training) => (
+                      <Td key={training}>
+                        {summary[training].avg.power
+                          ? summary[training].avg.power.toFixed(1)
+                          : "-"}
+                      </Td>
+                    ))}
+                  </Tr>
+                  <Tr>
+                    <Td>근성</Td>
+                    {trainingTypes.map((training) => (
+                      <Td key={training}>
+                        {summary[training].avg.guts
+                          ? summary[training].avg.guts.toFixed(1)
+                          : "-"}
+                      </Td>
+                    ))}
+                  </Tr>
+                  <Tr>
+                    <Td>지능</Td>
+                    {trainingTypes.map((training) => (
+                      <Td key={training}>
+                        {summary[training].avg.intelligence
+                          ? summary[training].avg.intelligence.toFixed(1)
+                          : "-"}
+                      </Td>
+                    ))}
+                  </Tr>
+                  <Tr>
+                    <Td>스킬포인트</Td>
+                    {trainingTypes.map((training) => (
+                      <Td key={training}>
+                        {summary[training].avg.skillPoint
+                          ? summary[training].avg.skillPoint.toFixed(1)
+                          : "-"}
+                      </Td>
+                    ))}
+                  </Tr>
+                  <Tr>
+                    <Td>총합</Td>
+                    {trainingTypes.map((training) => (
+                      <Td key={training}>
+                        {Object.values(summary[training].avg)
+                          .reduce((sum, x) => sum + x, 0)
+                          .toFixed(1)}
+                      </Td>
+                    ))}
+                  </Tr>
+                </Tbody>
+              </Table>
+            </TableContainer>
+          </Box>
+        </Stack>
       </Stack>
-      <Stack>
-        <Select
-          value={motivation}
-          onChange={(e) => setMotivation(+e.currentTarget.value)}
-        >
-          <option value={20}>최상</option>
-          <option value={10}>양호</option>
-          <option value={0}>보통</option>
-          <option value={-10}>저조</option>
-          <option value={-20}>최악</option>
-        </Select>
-        <Box
-          padding={4}
-          borderColor="gray.100"
-          borderWidth={1}
-          borderRadius={4}
-        >
-          <Heading size={"sm"} marginBottom={4}>
-            메인 스탯 상승량
-          </Heading>
-          <TableContainer>
-            <Table variant="simple">
-              <Thead>
-                <Tr>
-                  <Th></Th>
-                  <Th>스피드</Th>
-                  <Th>스태미나</Th>
-                  <Th>파워</Th>
-                  <Th>근성</Th>
-                  <Th>지능</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                <Tr>
-                  <Td>평균</Td>
-                  {trainingTypes.map((training) => (
-                    <Td key={training}>
-                      {summary[training].avg[training].toFixed(1)}
-                    </Td>
-                  ))}
-                </Tr>
-                <Tr>
-                  <Td>상위 5%</Td>
-                  {trainingTypes.map((training) => (
-                    <Td key={training}>{summary[training].p5[training]}</Td>
-                  ))}
-                </Tr>
-                <Tr>
-                  <Td>상위 10%</Td>
-                  {trainingTypes.map((training) => (
-                    <Td key={training}>{summary[training].p10[training]}</Td>
-                  ))}
-                </Tr>
-                <Tr>
-                  <Td>상위 25%</Td>
-                  {trainingTypes.map((training) => (
-                    <Td key={training}>{summary[training].p25[training]}</Td>
-                  ))}
-                </Tr>
-                <Tr>
-                  <Td>상위 50%</Td>
-                  {trainingTypes.map((training) => (
-                    <Td key={training}>{summary[training].p50[training]}</Td>
-                  ))}
-                </Tr>
-              </Tbody>
-            </Table>
-          </TableContainer>
-        </Box>
-        <Box
-          padding={4}
-          borderColor="gray.100"
-          borderWidth={1}
-          borderRadius={4}
-        >
-          <Heading size={"sm"} marginBottom={4}>
-            전체 스탯 상승량
-          </Heading>
-          <TableContainer>
-            <Table variant="simple">
-              <Thead>
-                <Tr>
-                  <Th>누적확률</Th>
-                  <Th>스피드</Th>
-                  <Th>스태미나</Th>
-                  <Th>파워</Th>
-                  <Th>근성</Th>
-                  <Th>지능</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                <Tr>
-                  <Td>평균</Td>
-                  {trainingTypes.map((training) => (
-                    <Td key={training}>{summary2[training].avg.toFixed(1)}</Td>
-                  ))}
-                </Tr>
-                <Tr>
-                  <Td>5%</Td>
-                  {trainingTypes.map((training) => (
-                    <Td key={training}>{summary2[training].p5}</Td>
-                  ))}
-                </Tr>
-                <Tr>
-                  <Td>10%</Td>
-                  {trainingTypes.map((training) => (
-                    <Td key={training}>{summary2[training].p10}</Td>
-                  ))}
-                </Tr>
-                <Tr>
-                  <Td>25%</Td>
-                  {trainingTypes.map((training) => (
-                    <Td key={training}>{summary2[training].p25}</Td>
-                  ))}
-                </Tr>
-                <Tr>
-                  <Td>50%</Td>
-                  {trainingTypes.map((training) => (
-                    <Td key={training}>{summary2[training].p50}</Td>
-                  ))}
-                </Tr>
-              </Tbody>
-            </Table>
-          </TableContainer>
-        </Box>
-      </Stack>
-    </Stack>
+    </FormProvider>
   );
 };
 
