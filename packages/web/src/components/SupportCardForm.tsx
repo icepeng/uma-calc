@@ -1,69 +1,23 @@
+import { AddIcon } from "@chakra-ui/icons";
 import {
   Box,
+  Center,
   FormControl,
   FormLabel,
+  IconButton,
+  Image,
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-  Select,
   Stack,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { db } from "@uma-calc/core";
 import React, { useEffect } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
-
-function renderRarity(rarity: number) {
-  if (rarity === 1) {
-    return "R";
-  }
-  if (rarity === 2) {
-    return "SR";
-  }
-  if (rarity === 3) {
-    return "SSR";
-  }
-  return "?";
-}
-
-function renderType(type: string) {
-  if (type === "speed") {
-    return "스피드";
-  }
-  if (type === "stamina") {
-    return "스태미너";
-  }
-  if (type === "power") {
-    return "파워";
-  }
-  if (type === "guts") {
-    return "근성";
-  }
-  if (type === "intelligence") {
-    return "지능";
-  }
-  if (type === "friend") {
-    return "친구";
-  }
-  return "?";
-}
-
-const sortedCards = db.supportCards
-  .filter((card) => card.release_ko)
-  .sort((a, b) => {
-    const rarityComp = b.rarity - a.rarity;
-    if (rarityComp !== 0) {
-      return rarityComp;
-    }
-
-    const typeComp = b.type.localeCompare(a.type);
-    if (typeComp !== 0) {
-      return typeComp;
-    }
-
-    return b.name_ko.localeCompare(a.type);
-  });
+import SupportCardModal, { renderType } from "./SuppportCardModal";
 
 const SupportCardForm: React.FC<{
   onChange?: (form: { id: number; level: number }) => void;
@@ -72,6 +26,15 @@ const SupportCardForm: React.FC<{
     defaultValues: { level: 50 },
   });
   const value = useWatch({ control });
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  function handleModalClose(data?: { id: number }) {
+    if (data) {
+      value.id = data?.id;
+    }
+    onClose();
+  }
 
   useEffect(() => {
     if (value.id && value.level) {
@@ -83,16 +46,34 @@ const SupportCardForm: React.FC<{
     <Box padding={4} borderColor="gray.100" borderWidth={1} borderRadius={4}>
       <Stack spacing={4} direction="column">
         <FormControl>
-          <FormLabel>카드명</FormLabel>
-          <Select {...register("id", { valueAsNumber: true })}>
-            <option value={undefined}>-</option>
-            {sortedCards.map((card) => (
-              <option key={card.support_id} value={card.support_id}>
-                {renderRarity(card.rarity)} {card.name_ko} (
-                {renderType(card.type)})
-              </option>
-            ))}
-          </Select>
+          <FormLabel>서포트 카드</FormLabel>
+          <Center h={"174px"}>
+            {/* 여기 어떻게 할 지 잘 모르겠음 겹쳐서 타입 띄우는거 자체를 고쳐야하나? */}
+            <Center w={"150px"} flexDirection={"column"} position={"relative"}>
+              {value.id === undefined ? (
+                <IconButton
+                  aria-label="SelectSupportCard"
+                  onClick={onOpen}
+                  icon={<AddIcon />}
+                />
+              ) : (
+                <Image
+                  boxSize="150px"
+                  alt={value.id?.toString()}
+                  src={`/img/supports/${value.id}.png`}
+                  onClick={onOpen}
+                />
+              )}
+              {db.supportCards.find((x) => x.support_id === value.id)?.name_ko}
+              {renderType(
+                db.supportCards.find((x) => x.support_id === value.id)?.type!
+              )}
+            </Center>
+          </Center>
+          <SupportCardModal
+            isOpen={isOpen}
+            onClose={handleModalClose}
+          ></SupportCardModal>
         </FormControl>
         <FormControl>
           <FormLabel>레벨</FormLabel>

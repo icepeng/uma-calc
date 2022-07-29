@@ -2359,6 +2359,7 @@ __metadata:
     "@uma-calc/core": "workspace:^"
     "@vitejs/plugin-react": ^2.0.0
     framer-motion: ^6.5.1
+    korean-regexp: ^1.0.9
     react: ^18.2.0
     react-dom: ^18.2.0
     react-hook-form: ^7.33.1
@@ -4371,6 +4372,13 @@ __metadata:
   version: 3.0.3
   resolution: "kleur@npm:3.0.3"
   checksum: df82cd1e172f957bae9c536286265a5cdbd5eeca487cb0a3b2a7b41ef959fc61f8e7c0e9aeea9c114ccf2c166b6a8dd45a46fd619c1c569d210ecd2765ad5169
+  languageName: node
+  linkType: hard
+
+"korean-regexp@npm:^1.0.9":
+  version: 1.0.9
+  resolution: "korean-regexp@npm:1.0.9"
+  checksum: 235f28c3e74febce8129ee020c6ef019d2718e7b9fc8b4a556930c0e5390b8213ca42bda60b04c747f625178ec67293f0f34df3c503dde4e90fd74126161168f
   languageName: node
   linkType: hard
 
