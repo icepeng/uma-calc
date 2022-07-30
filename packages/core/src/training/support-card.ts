@@ -1,4 +1,4 @@
-import { Stat, TrainingType } from "./stat";
+import { Stat, TrainingType } from './stat';
 
 export interface SupportCard {
   id: number;
@@ -10,4 +10,4 @@ export interface SupportCard {
   specialty: number; // 곱연산
 }
 
-export type SupportType = TrainingType | "friend";
+export type SupportType = TrainingType | 'friend';

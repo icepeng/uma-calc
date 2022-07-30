@@ -8,11 +8,11 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
-import { db } from "@uma-calc/core";
-import React from "react";
-import { renderRarity, renderType } from "../pipe";
+import { db } from '@uma-calc/core';
+import React from 'react';
+import { renderRarity, renderType } from '../pipe';
 
 const sortedCards = db.supportCards
   .filter((card) => card.release_ko)
@@ -34,7 +34,7 @@ const SupportCardModal: React.FC<{
   isOpen: boolean;
   onClose: (data?: { id: number }) => void;
 }> = ({ isOpen, onClose }) => {
-  const [query, setQuery] = React.useState("");
+  const [query, setQuery] = React.useState('');
   const initialRef = React.useRef(null);
   const cards = React.useMemo(
     () => sortedCards.filter((card) => card.name_ko.includes(query)),
@@ -61,8 +61,8 @@ const SupportCardModal: React.FC<{
           <List paddingX={0} maxH="400px" overflowY="scroll">
             {cards.map((card) => (
               <ListItem
-                cursor={"pointer"}
-                _hover={{ backgroundColor: "gray.100" }}
+                cursor={'pointer'}
+                _hover={{ backgroundColor: 'gray.100' }}
                 key={card.support_id}
                 onClick={() =>
                   onClose({

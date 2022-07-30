@@ -10,10 +10,10 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
-} from "@chakra-ui/react";
-import { db, Gene } from "@uma-calc/core";
-import React from "react";
-import { useForm } from "react-hook-form";
+} from '@chakra-ui/react';
+import { db, Gene } from '@uma-calc/core';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 
 interface GeneForm {
   charaId: number;
@@ -53,7 +53,7 @@ const GeneModal: React.FC<{
         <ModalBody>
           <FormControl>
             <FormLabel>캐릭터</FormLabel>
-            <Select {...register("charaId")}>
+            <Select {...register('charaId')}>
               {db.characters
                 .filter((char) => char.playable && char.name_ko)
                 .map((char) => (
@@ -65,8 +65,8 @@ const GeneModal: React.FC<{
           </FormControl>
           <FormControl>
             <FormLabel>청인자</FormLabel>
-            <Select {...register("blueStatType")}>
-              {["스피드", "스태미너", "파워", "근성", "지능"].map((stat) => (
+            <Select {...register('blueStatType')}>
+              {['스피드', '스태미너', '파워', '근성', '지능'].map((stat) => (
                 <option key={stat} value={stat}>
                   {stat}
                 </option>
@@ -75,18 +75,18 @@ const GeneModal: React.FC<{
           </FormControl>
           <FormControl>
             <FormLabel>적인자</FormLabel>
-            <Select {...register("redStatType")}>
+            <Select {...register('redStatType')}>
               {[
-                "단거리",
-                "마일",
-                "중거리",
-                "장거리",
-                "잔디",
-                "더트",
-                "도주",
-                "선행",
-                "선입",
-                "추입",
+                '단거리',
+                '마일',
+                '중거리',
+                '장거리',
+                '잔디',
+                '더트',
+                '도주',
+                '선행',
+                '선입',
+                '추입',
               ].map((stat) => (
                 <option key={stat} value={stat}>
                   {stat}

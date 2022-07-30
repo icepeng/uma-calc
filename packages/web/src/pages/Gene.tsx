@@ -1,18 +1,18 @@
-import { Box, Button, Center, Stack, useDisclosure } from "@chakra-ui/react";
-import { Gene, getCharacterName } from "@uma-calc/core";
-import React from "react";
-import GeneModal from "../components/GeneModal";
+import { Box, Button, Center, Stack, useDisclosure } from '@chakra-ui/react';
+import { Gene, getCharacterName } from '@uma-calc/core';
+import React from 'react';
+import GeneModal from '../components/GeneModal';
 
 const GenePage: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [root, setRoot] = React.useState<Gene>({
     charaId: 1026, // 미호노 부르봉
     blueStat: {
-      type: "speed",
+      type: 'speed',
       value: 3,
     },
     redStat: {
-      type: "grass",
+      type: 'grass',
       value: 3,
     },
     whiteStats: [],

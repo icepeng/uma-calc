@@ -7,10 +7,10 @@ import {
   ModalHeader,
   ModalOverlay,
   SimpleGrid,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
-import { db } from "@uma-calc/core";
-import React from "react";
+import { db } from '@uma-calc/core';
+import React from 'react';
 
 const sortedPlayableCharacters = db.playableCharacters
   .filter((character) => character.release_ko)

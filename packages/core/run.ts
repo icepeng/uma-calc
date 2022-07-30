@@ -1,9 +1,9 @@
-import { getAllCases, Stat, SupportCard, TrainingType } from "./src/training";
+import { getAllCases, Stat, SupportCard, TrainingType } from './src/training';
 
 const supportCards: SupportCard[] = [
   {
-    name: "킹 헤일로",
-    type: "speed",
+    name: '킹 헤일로',
+    type: 'speed',
     specialty: 45,
     trainingBonus: 0.05,
     friendshipBonus: 1.18,
@@ -18,8 +18,8 @@ const supportCards: SupportCard[] = [
     },
   },
   {
-    name: "스페셜 위크",
-    type: "speed",
+    name: '스페셜 위크',
+    type: 'speed',
     specialty: 30,
     trainingBonus: 0.05,
     friendshipBonus: 1.35,
@@ -34,8 +34,8 @@ const supportCards: SupportCard[] = [
     },
   },
   {
-    name: "에이신 플래시",
-    type: "speed",
+    name: '에이신 플래시',
+    type: 'speed',
     specialty: 35,
     trainingBonus: 0.05,
     friendshipBonus: 1.2,
@@ -50,8 +50,8 @@ const supportCards: SupportCard[] = [
     },
   },
   {
-    name: "맨하탄 카페",
-    type: "stamina",
+    name: '맨하탄 카페',
+    type: 'stamina',
     specialty: 70,
     trainingBonus: 0.05,
     friendshipBonus: 1.2,
@@ -66,8 +66,8 @@ const supportCards: SupportCard[] = [
     },
   },
   {
-    name: "슈퍼 크릭",
-    type: "stamina",
+    name: '슈퍼 크릭',
+    type: 'stamina',
     specialty: 40,
     trainingBonus: 0.1,
     friendshipBonus: 1.32,
@@ -82,8 +82,8 @@ const supportCards: SupportCard[] = [
     },
   },
   {
-    name: "하야카와 타즈나",
-    type: "friend",
+    name: '하야카와 타즈나',
+    type: 'friend',
     specialty: 0,
     trainingBonus: 0.1,
     friendshipBonus: 1,
@@ -128,7 +128,7 @@ function run(target: TrainingType, level: number, motivation: number) {
   );
 }
 
-run("speed", 1, 0.1);
-run("stamina", 3, 0.1);
-run("power", 1, 0.1);
-run("intelligence", 2, 0.1);
+run('speed', 1, 0.1);
+run('stamina', 3, 0.1);
+run('power', 1, 0.1);
+run('intelligence', 2, 0.1);

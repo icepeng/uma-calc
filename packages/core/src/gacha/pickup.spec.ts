@@ -1,7 +1,7 @@
-import { combination, negBinom, pickup } from "./pickup";
+import { combination, negBinom, pickup } from './pickup';
 
-describe("combination", () => {
-  it("should calculate combination", () => {
+describe('combination', () => {
+  it('should calculate combination', () => {
     // given
     const n = 5;
     const r = 3;
@@ -14,8 +14,8 @@ describe("combination", () => {
   });
 });
 
-describe("negBinom", () => {
-  it("should calculate negative binomial distribution", () => {
+describe('negBinom', () => {
+  it('should calculate negative binomial distribution', () => {
     // given
     const n = 200;
     const r = 3;
@@ -29,8 +29,8 @@ describe("negBinom", () => {
   });
 });
 
-describe("pickup", () => {
-  it("should calculate pickup", () => {
+describe('pickup', () => {
+  it('should calculate pickup', () => {
     // given
 
     // when

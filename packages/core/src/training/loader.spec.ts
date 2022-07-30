@@ -1,7 +1,7 @@
-import { bonusResolver, loadSupportCard } from "./loader";
+import { bonusResolver, loadSupportCard } from './loader';
 
-describe("bonusResolver", () => {
-  it("should calculate motivationBonus from effects", () => {
+describe('bonusResolver', () => {
+  it('should calculate motivationBonus from effects', () => {
     // given
     const effects: number[][] = [
       // 키타산 블랙 SSR
@@ -17,15 +17,15 @@ describe("bonusResolver", () => {
       [19, -1, -1, -1, -1, -1, -1, -1, -1, -1, 40, 80],
     ];
     // when
-    const motivationBonus = bonusResolver("motivationBonus", effects, 41);
+    const motivationBonus = bonusResolver('motivationBonus', effects, 41);
 
     // then
     expect(motivationBonus).toBe(27);
   });
 });
 
-describe("loadSupportCard", () => {
-  it("should create supportCard from id and level", () => {
+describe('loadSupportCard', () => {
+  it('should create supportCard from id and level', () => {
     // given
     const cardId = 20023; // 스윕 토쇼 SR
     const level = 45;
@@ -36,7 +36,7 @@ describe("loadSupportCard", () => {
     // then
     expect(supportCard).toStrictEqual({
       id: 20023,
-      type: "speed",
+      type: 'speed',
       motivationBonus: 40,
       friendshipBonus: 30,
       trainingBonus: 5 + 5,

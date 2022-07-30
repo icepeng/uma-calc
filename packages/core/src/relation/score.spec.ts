@@ -1,7 +1,7 @@
-import { Gene, getRelationScore, getScore } from "./score";
+import { Gene, getRelationScore, getScore } from './score';
 
-describe("getScore", () => {
-  it("should calculate relation between parent", () => {
+describe('getScore', () => {
+  it('should calculate relation between parent', () => {
     // given
     const char1 = 1014; // 엘 콘도르 파사
     const char2 = 1006; // 오구리 캡
@@ -13,7 +13,7 @@ describe("getScore", () => {
     expect(score).toBe(23);
   });
 
-  it("should calculate relation between grandparent", () => {
+  it('should calculate relation between grandparent', () => {
     // given
     const char1 = 1014; // 엘 콘도르 파사
     const char2 = 1006; // 오구리 캡
@@ -26,7 +26,7 @@ describe("getScore", () => {
     expect(score).toBe(22);
   });
 
-  it("should ignore duplicate chara ids", () => {
+  it('should ignore duplicate chara ids', () => {
     // given
     const char1 = 1014; // 엘 콘도르 파사
     const char2 = 1026; // 미호노 부르봉
@@ -40,16 +40,16 @@ describe("getScore", () => {
   });
 });
 
-describe("getGeneScore", () => {
-  it("should calculate total score", () => {
+describe('getGeneScore', () => {
+  it('should calculate total score', () => {
     // given
     const grandparent1: Gene = {
       blueStat: {
-        type: "speed",
+        type: 'speed',
         value: 3,
       },
       redStat: {
-        type: "grass",
+        type: 'grass',
         value: 3,
       },
       whiteStats: [],
@@ -59,11 +59,11 @@ describe("getGeneScore", () => {
 
     const grandparent2: Gene = {
       blueStat: {
-        type: "speed",
+        type: 'speed',
         value: 3,
       },
       redStat: {
-        type: "grass",
+        type: 'grass',
         value: 3,
       },
       whiteStats: [],
@@ -73,11 +73,11 @@ describe("getGeneScore", () => {
 
     const gene1: Gene = {
       blueStat: {
-        type: "speed",
+        type: 'speed',
         value: 3,
       },
       redStat: {
-        type: "grass",
+        type: 'grass',
         value: 3,
       },
       whiteStats: [],
@@ -89,11 +89,11 @@ describe("getGeneScore", () => {
 
     const gene2: Gene = {
       blueStat: {
-        type: "speed",
+        type: 'speed',
         value: 3,
       },
       redStat: {
-        type: "grass",
+        type: 'grass',
         value: 3,
       },
       whiteStats: [],

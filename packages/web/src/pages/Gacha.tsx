@@ -17,10 +17,10 @@ import {
   Thead,
   Tr,
   Wrap,
-} from "@chakra-ui/react";
-import { pickup } from "@uma-calc/core";
-import React from "react";
-import { useForm } from "react-hook-form";
+} from '@chakra-ui/react';
+import { pickup } from '@uma-calc/core';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 
 interface GachaForm {
   targetDraw: number;
@@ -83,7 +83,7 @@ const GachaPage: React.FC = () => {
   }
 
   function renderPercent(value: number) {
-    return (value * 100).toFixed(4) + "%";
+    return (value * 100).toFixed(4) + '%';
   }
 
   return (
@@ -97,7 +97,7 @@ const GachaPage: React.FC = () => {
       >
         <FormControl>
           <FormLabel>목표 돌파수</FormLabel>
-          <Select {...register("targetDraw", { valueAsNumber: true })}>
+          <Select {...register('targetDraw', { valueAsNumber: true })}>
             <option value={5}>풀돌</option>
             <option value={4}>3돌</option>
             <option value={3}>2돌</option>
@@ -107,7 +107,7 @@ const GachaPage: React.FC = () => {
         </FormControl>
         <FormControl>
           <FormLabel>현재 돌파수</FormLabel>
-          <Select {...register("currentDraw", { valueAsNumber: true })}>
+          <Select {...register('currentDraw', { valueAsNumber: true })}>
             <option value={4}>3돌</option>
             <option value={3}>2돌</option>
             <option value={2}>1돌</option>
@@ -117,15 +117,15 @@ const GachaPage: React.FC = () => {
         </FormControl>
         <FormControl>
           <FormLabel>현재 천장 포인트</FormLabel>
-          <Input {...register("ceilPoint", { valueAsNumber: true })} />
+          <Input {...register('ceilPoint', { valueAsNumber: true })} />
         </FormControl>
         <FormControl>
           <FormLabel>남은 쥬얼 개수</FormLabel>
-          <Input {...register("jewelLeft", { valueAsNumber: true })} />
+          <Input {...register('jewelLeft', { valueAsNumber: true })} />
         </FormControl>
         <FormControl>
           <FormLabel>픽업 확률</FormLabel>
-          <Select {...register("p")}>
+          <Select {...register('p')}>
             <option value={0.0075}>0.75%</option>
             <option value={0.005}>0.5%</option>
           </Select>

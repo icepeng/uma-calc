@@ -7,7 +7,7 @@ export interface Stat {
   skillPoint: number;
 }
 
-export type TrainingType = Exclude<keyof Stat, "skillPoint">;
+export type TrainingType = Exclude<keyof Stat, 'skillPoint'>;
 
 const emptyStat: Stat = {
   speed: 0,

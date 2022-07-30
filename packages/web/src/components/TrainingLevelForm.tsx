@@ -10,21 +10,21 @@ import {
   NumberInputField,
   NumberInputStepper,
   Stack,
-} from "@chakra-ui/react";
-import React from "react";
-import { Controller, useFormContext, useWatch } from "react-hook-form";
-import { handleNumber } from "../pipe";
+} from '@chakra-ui/react';
+import React from 'react';
+import { Controller, useFormContext, useWatch } from 'react-hook-form';
+import { handleNumber } from '../pipe';
 
 const TrainingLevelForm: React.FC = () => {
   const { control, register } = useFormContext();
-  const isSummerTraining = useWatch({ control, name: "isSummerTraining" });
+  const isSummerTraining = useWatch({ control, name: 'isSummerTraining' });
 
   return (
     <Box padding={4} borderColor="gray.100" borderWidth={1} borderRadius={4}>
-      <Heading size={"sm"} marginBottom={4}>
+      <Heading size={'sm'} marginBottom={4}>
         트레이닝 레벨
       </Heading>
-      <Checkbox mb={4} {...register("isSummerTraining")}>
+      <Checkbox mb={4} {...register('isSummerTraining')}>
         여름 합숙
       </Checkbox>
       <Stack spacing={4} direction="row">
@@ -32,7 +32,7 @@ const TrainingLevelForm: React.FC = () => {
           <FormLabel>스피드</FormLabel>
           <Controller
             control={control}
-            name={"trainingLevels.speed"}
+            name={'trainingLevels.speed'}
             render={({ field: { ref, onChange, ...restField } }) => (
               <NumberInput
                 {...restField}
@@ -55,7 +55,7 @@ const TrainingLevelForm: React.FC = () => {
           <FormLabel>스태미나</FormLabel>
           <Controller
             control={control}
-            name={"trainingLevels.stamina"}
+            name={'trainingLevels.stamina'}
             render={({ field: { ref, onChange, ...restField } }) => (
               <NumberInput
                 {...restField}
@@ -78,7 +78,7 @@ const TrainingLevelForm: React.FC = () => {
           <FormLabel>파워</FormLabel>
           <Controller
             control={control}
-            name={"trainingLevels.power"}
+            name={'trainingLevels.power'}
             render={({ field: { ref, onChange, ...restField } }) => (
               <NumberInput
                 {...restField}
@@ -101,7 +101,7 @@ const TrainingLevelForm: React.FC = () => {
           <FormLabel>근성</FormLabel>
           <Controller
             control={control}
-            name={"trainingLevels.guts"}
+            name={'trainingLevels.guts'}
             render={({ field: { ref, onChange, ...restField } }) => (
               <NumberInput
                 {...restField}
@@ -124,7 +124,7 @@ const TrainingLevelForm: React.FC = () => {
           <FormLabel>지능</FormLabel>
           <Controller
             control={control}
-            name={"trainingLevels.intelligence"}
+            name={'trainingLevels.intelligence'}
             render={({ field: { ref, onChange, ...restField } }) => (
               <NumberInput
                 {...restField}

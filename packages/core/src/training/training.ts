@@ -1,7 +1,7 @@
-import { trainingTable } from "./data";
-import { Stat, TrainingType } from "./stat";
-import { StatBonus } from "./stat-bonus";
-import { SupportCard } from "./support-card";
+import { trainingTable } from './data';
+import { Stat, TrainingType } from './stat';
+import { StatBonus } from './stat-bonus';
+import { SupportCard } from './support-card';
 
 export function getTrainingStat(
   supportCards: SupportCard[],
@@ -65,7 +65,7 @@ export function getTrainingStat(
 }
 
 function getTargetRate(card: SupportCard, target: TrainingType) {
-  if (card.type === "friend") {
+  if (card.type === 'friend') {
     return 100 / 600;
   }
   if (card.type === target) {

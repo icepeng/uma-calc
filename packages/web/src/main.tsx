@@ -1,14 +1,14 @@
-import { ChakraProvider } from "@chakra-ui/react";
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import App from "./App";
-import "./index.css";
-import Gacha from "./pages/Gacha";
-import Gene from "./pages/Gene";
-import Training from "./pages/Training";
+import { ChakraProvider } from '@chakra-ui/react';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import App from './App';
+import './index.css';
+import Gacha from './pages/Gacha';
+import Gene from './pages/Gene';
+import Training from './pages/Training';
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <ChakraProvider>
       <BrowserRouter>

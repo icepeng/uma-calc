@@ -1,11 +1,11 @@
-import { Stat, TrainingType } from "./stat";
+import { Stat, TrainingType } from './stat';
 
 export const trainingTypes: TrainingType[] = [
-  "speed",
-  "stamina",
-  "power",
-  "guts",
-  "intelligence",
+  'speed',
+  'stamina',
+  'power',
+  'guts',
+  'intelligence',
 ];
 
 export const trainingTable: Record<TrainingType, Record<number, Stat>> = {

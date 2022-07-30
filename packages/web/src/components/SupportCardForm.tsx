@@ -94,9 +94,11 @@ const SupportCardForm: React.FC<{ index: number }> = ({ index }) => {
           control={control}
           name={`deck.${index}.isFriendship`}
           render={({ field: { ref, onChange, value } }) => {
-            return <Checkbox ref={ref} onChange={onChange} isChecked={value}>
-              우정 트레이닝
-            </Checkbox>;
+            return (
+              <Checkbox ref={ref} onChange={onChange} isChecked={value}>
+                우정 트레이닝
+              </Checkbox>
+            );
           }}
         />
       </Stack>

@@ -1,2 +1,2 @@
-export * from "./character";
-export * from "./score";
+export * from './character';
+export * from './score';

@@ -1,4 +1,4 @@
-import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
+import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons';
 import {
   Box,
   Flex,
@@ -8,15 +8,15 @@ import {
   Stack,
   useColorModeValue,
   useDisclosure,
-} from "@chakra-ui/react";
-import React from "react";
-import { Link } from "react-router-dom";
+} from '@chakra-ui/react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 type Route = { title: string; href: string };
 
 const ROUTES: Route[] = [
-  { title: "픽업", href: "gacha" },
-  { title: "훈련", href: "training" },
+  { title: '픽업', href: 'gacha' },
+  { title: '훈련', href: 'training' },
   // { title: "인자", href: "gene" },
 ];
 
@@ -25,10 +25,10 @@ const NavLink: React.FC<{ route: Route }> = ({ route }) => (
     as={Link}
     px={2}
     py={1}
-    rounded={"md"}
+    rounded={'md'}
     _hover={{
-      textDecoration: "none",
-      bg: useColorModeValue("gray.200", "gray.700"),
+      textDecoration: 'none',
+      bg: useColorModeValue('gray.200', 'gray.700'),
     }}
     to={route.href}
   >
@@ -41,25 +41,25 @@ const Navbar: React.FC = () => {
 
   return (
     <Box
-      bg={useColorModeValue("white", "gray.900")}
+      bg={useColorModeValue('white', 'gray.900')}
       px={4}
       borderBottom={1}
-      borderStyle={"solid"}
-      borderColor={useColorModeValue("gray.200", "gray.900")}
+      borderStyle={'solid'}
+      borderColor={useColorModeValue('gray.200', 'gray.900')}
     >
-      <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
+      <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
         <IconButton
-          size={"md"}
+          size={'md'}
           icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-          aria-label={"Open Menu"}
-          display={{ md: "none" }}
+          aria-label={'Open Menu'}
+          display={{ md: 'none' }}
           onClick={isOpen ? onClose : onOpen}
         />
-        <HStack spacing={8} alignItems={"center"}>
-          <Box fontFamily={"heading"} fontWeight={"bold"}>
+        <HStack spacing={8} alignItems={'center'}>
+          <Box fontFamily={'heading'} fontWeight={'bold'}>
             UmaCalc
           </Box>
-          <HStack as={"nav"} spacing={4} display={{ base: "none", md: "flex" }}>
+          <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
             {ROUTES.map((route) => (
               <NavLink key={route.href} route={route} />
             ))}
@@ -68,8 +68,8 @@ const Navbar: React.FC = () => {
       </Flex>
 
       {isOpen ? (
-        <Box pb={4} display={{ md: "none" }}>
-          <Stack as={"nav"} spacing={4}>
+        <Box pb={4} display={{ md: 'none' }}>
+          <Stack as={'nav'} spacing={4}>
             {ROUTES.map((route) => (
               <NavLink key={route.href} route={route} />
             ))}

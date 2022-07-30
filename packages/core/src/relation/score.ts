@@ -1,5 +1,5 @@
-import { relations } from "../data/relation";
-import { relationMembers } from "../data/relation-members";
+import { relations } from '../data/relation';
+import { relationMembers } from '../data/relation-members';
 
 export interface Gene {
   charaId: number;

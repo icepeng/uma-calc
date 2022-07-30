@@ -1,5 +1,5 @@
-import { supportCards } from "../data/support";
-import { SupportCard, SupportType } from "./support-card";
+import { supportCards } from '../data/support';
+import { SupportCard, SupportType } from './support-card';
 
 function interpolation(table: number[]) {
   const levelArray = [1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
@@ -105,38 +105,38 @@ export function loadSupportCard(
     id: rawData.support_id,
     type: rawData.type as SupportType,
     motivationBonus:
-      bonusResolver("motivationBonus", rawData.effects, level) +
-      uniqueBonusResolver("motivationBonus", rawData.unique, level),
+      bonusResolver('motivationBonus', rawData.effects, level) +
+      uniqueBonusResolver('motivationBonus', rawData.unique, level),
     friendshipBonus: addMultipliers(
-      bonusResolver("friendshipBonus", rawData.effects, level),
-      uniqueBonusResolver("friendshipBonus", rawData.unique, level)
+      bonusResolver('friendshipBonus', rawData.effects, level),
+      uniqueBonusResolver('friendshipBonus', rawData.unique, level)
     ),
     trainingBonus:
-      bonusResolver("trainingBonus", rawData.effects, level) +
-      uniqueBonusResolver("trainingBonus", rawData.unique, level),
+      bonusResolver('trainingBonus', rawData.effects, level) +
+      uniqueBonusResolver('trainingBonus', rawData.unique, level),
     statBonus: {
       speed:
-        bonusResolver("speedBonus", rawData.effects, level) +
-        uniqueBonusResolver("speedBonus", rawData.unique, level),
+        bonusResolver('speedBonus', rawData.effects, level) +
+        uniqueBonusResolver('speedBonus', rawData.unique, level),
       stamina:
-        bonusResolver("staminaBonus", rawData.effects, level) +
-        uniqueBonusResolver("staminaBonus", rawData.unique, level),
+        bonusResolver('staminaBonus', rawData.effects, level) +
+        uniqueBonusResolver('staminaBonus', rawData.unique, level),
       power:
-        bonusResolver("powerBonus", rawData.effects, level) +
-        uniqueBonusResolver("powerBonus", rawData.unique, level),
+        bonusResolver('powerBonus', rawData.effects, level) +
+        uniqueBonusResolver('powerBonus', rawData.unique, level),
       guts:
-        bonusResolver("gutsBonus", rawData.effects, level) +
-        uniqueBonusResolver("gutsBonus", rawData.unique, level),
+        bonusResolver('gutsBonus', rawData.effects, level) +
+        uniqueBonusResolver('gutsBonus', rawData.unique, level),
       intelligence:
-        bonusResolver("intelligenceBonus", rawData.effects, level) +
-        uniqueBonusResolver("intelligenceBonus", rawData.unique, level),
+        bonusResolver('intelligenceBonus', rawData.effects, level) +
+        uniqueBonusResolver('intelligenceBonus', rawData.unique, level),
       skillPoint:
-        bonusResolver("skillPointBonus", rawData.effects, level) +
-        uniqueBonusResolver("skillPointBonus", rawData.unique, level),
+        bonusResolver('skillPointBonus', rawData.effects, level) +
+        uniqueBonusResolver('skillPointBonus', rawData.unique, level),
     },
     specialty: addMultipliers(
-      bonusResolver("specialty", rawData.effects, level),
-      uniqueBonusResolver("specialty", rawData.unique, level)
+      bonusResolver('specialty', rawData.effects, level),
+      uniqueBonusResolver('specialty', rawData.unique, level)
     ),
   };
 }
