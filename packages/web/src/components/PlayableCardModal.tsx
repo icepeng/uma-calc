@@ -31,6 +31,7 @@ const PlayableCardModal: React.FC<{
             {sortedPlayableCharacters.map(({ card_id }) => (
               <Image
                 key={card_id}
+                cursor="pointer"
                 boxSize="150px"
                 border="1px"
                 borderColor="gray.100"

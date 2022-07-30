@@ -1,4 +1,4 @@
-import { AddIcon } from "@chakra-ui/icons";
+import { AddIcon } from '@chakra-ui/icons';
 import {
   Box,
   Center,
@@ -14,12 +14,12 @@ import {
   NumberInputStepper,
   Stack,
   useDisclosure,
-} from "@chakra-ui/react";
-import { db } from "@uma-calc/core";
-import React from "react";
-import { Controller, useFormContext } from "react-hook-form";
-import { handleNumber } from "../pipe";
-import PlayableCardModal from "./PlayableCardModal";
+} from '@chakra-ui/react';
+import { db } from '@uma-calc/core';
+import React from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
+import { handleNumber } from '../pipe';
+import PlayableCardModal from './PlayableCardModal';
 
 const sortedPlayableCharacters = db.playableCharacters
   .filter((character) => character.release_ko)
@@ -37,7 +37,7 @@ const StatBonusForm: React.FC = () => {
     if (!targetCard) {
       return;
     }
-    setValue("statBonus", {
+    setValue('statBonus', {
       speed: targetCard.stat_bonus[0],
       stamina: targetCard.stat_bonus[1],
       power: targetCard.stat_bonus[2],
@@ -56,10 +56,10 @@ const StatBonusForm: React.FC = () => {
 
   return (
     <Box padding={4} borderColor="gray.100" borderWidth={1} borderRadius={4}>
-      <Heading size={"sm"} marginBottom={4}>
+      <Heading size={'sm'} marginBottom={4}>
         스탯 보너스
       </Heading>
-      <Stack spacing={4} direction="row" alignItems={"center"} marginBottom={4}>
+      <Stack spacing={4} direction="row" alignItems={'center'} marginBottom={4}>
         {cardId === -1 ? (
           <IconButton
             variant="outline"
@@ -73,6 +73,7 @@ const StatBonusForm: React.FC = () => {
           />
         ) : (
           <Image
+            cursor="pointer"
             boxSize="150px"
             border="1px"
             borderColor="gray.100"
@@ -92,7 +93,7 @@ const StatBonusForm: React.FC = () => {
           <FormLabel>스피드%</FormLabel>
           <Controller
             control={control}
-            name={"statBonus.speed"}
+            name={'statBonus.speed'}
             render={({ field: { ref, onChange, ...restField } }) => (
               <NumberInput
                 {...restField}
@@ -115,7 +116,7 @@ const StatBonusForm: React.FC = () => {
           <FormLabel>스태미나%</FormLabel>
           <Controller
             control={control}
-            name={"statBonus.stamina"}
+            name={'statBonus.stamina'}
             render={({ field: { ref, onChange, ...restField } }) => (
               <NumberInput
                 {...restField}
@@ -138,7 +139,7 @@ const StatBonusForm: React.FC = () => {
           <FormLabel>파워%</FormLabel>
           <Controller
             control={control}
-            name={"statBonus.power"}
+            name={'statBonus.power'}
             render={({ field: { ref, onChange, ...restField } }) => (
               <NumberInput
                 {...restField}
@@ -161,7 +162,7 @@ const StatBonusForm: React.FC = () => {
           <FormLabel>근성%</FormLabel>
           <Controller
             control={control}
-            name={"statBonus.guts"}
+            name={'statBonus.guts'}
             render={({ field: { ref, onChange, ...restField } }) => (
               <NumberInput
                 {...restField}
@@ -184,7 +185,7 @@ const StatBonusForm: React.FC = () => {
           <FormLabel>지능%</FormLabel>
           <Controller
             control={control}
-            name={"statBonus.intelligence"}
+            name={'statBonus.intelligence'}
             render={({ field: { ref, onChange, ...restField } }) => (
               <NumberInput
                 {...restField}
