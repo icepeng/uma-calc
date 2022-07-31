@@ -38,12 +38,9 @@ export function getTrainingStat(
     1
   );
 
-  const motivationBonus = Math.max(
-    1 +
-      (motivation / 100) *
-        supportCards.reduce((sum, card) => sum + card.motivationBonus / 100, 1),
-    1 + motivation / 100
-  );
+  const motivationBonus =
+    (motivation / 100) *
+    supportCards.reduce((sum, card) => sum + card.motivationBonus / 100, 1);
 
   const countBonus = 1 + 0.05 * supportCards.length;
 
