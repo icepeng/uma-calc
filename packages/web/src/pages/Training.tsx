@@ -64,6 +64,8 @@ const TrainingPage: React.FC = () => {
   );
 
   React.useEffect(() => {
+    setInitialized(true);
+
     const savedDecksStr = localStorage.getItem('decks');
     if (!savedDecksStr) {
       return;
@@ -72,7 +74,6 @@ const TrainingPage: React.FC = () => {
     const savedDecks = JSON.parse(savedDecksStr);
     setDecks(savedDecks);
     replace(savedDecks[0]);
-    setInitialized(true);
   }, []);
 
   React.useEffect(() => {
@@ -85,6 +86,7 @@ const TrainingPage: React.FC = () => {
       ...decks.slice(deckIndex + 1),
     ];
     localStorage.setItem('decks', JSON.stringify(nextDecks));
+    console.log(nextDecks);
     setDecks(nextDecks);
   }, [formValues]);
 
