@@ -79,7 +79,7 @@ const StatBonusForm: React.FC = () => {
             borderColor="gray.100"
             borderRadius="4"
             alt={cardId.toString()}
-            src={`/img/${cardId}.png`}
+            src={`/img/characters/${cardId}.png`}
             onClick={onOpen}
           ></Image>
         )}

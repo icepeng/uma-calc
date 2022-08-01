@@ -1,8 +1,8 @@
 import { AddIcon } from '@chakra-ui/icons';
 import {
   Box,
-  Checkbox,
   Center,
+  Checkbox,
   FormControl,
   FormLabel,
   IconButton,
