@@ -74,9 +74,8 @@ export const SupportCardModal: React.FC<{
             <SimpleGrid
               columns={4}
               spacing={2.5}
-              padding={3}
+              padding={3.5}
               justifyItems="center"
-              overflow={'visible'}
             >
               {cards.map(({ support_id }) =>
                 renderSupportCard(support_id, () =>

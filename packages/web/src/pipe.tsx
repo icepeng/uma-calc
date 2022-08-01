@@ -17,7 +17,7 @@ export function renderType(type?: string) {
     return;
   }
   return (
-    <Box position={'absolute'} top={'-5px'} right={'5px'}>
+    <Box position={'absolute'} top={'-8px'} right={'5px'}>
       <Image
         boxSize={'35px'}
         src={`/img/icons/${type}_support_icon.png`}
