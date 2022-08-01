@@ -1,7 +1,5 @@
 import {
   Box,
-  Center,
-  Image,
   Input,
   Modal,
   ModalBody,
@@ -14,20 +12,20 @@ import {
 
 import { db } from '@uma-calc/core';
 import { getRegExp } from 'korean-regexp';
-import React, { ChangeEvent } from 'react';
-import { renderType } from '../pipe';
+import React from 'react';
+import { renderSupportCard } from '../pipe';
 
-const sortedCardRegexs = db.supportCards
+const sortedCards = db.supportCards
   .filter((x) => x.release_ko)
   .sort((a, b) => {
-    const rarityComp = b.rarity - a.rarity;
-    if (rarityComp !== 0) {
-      return rarityComp;
-    }
-
-    const typeComp = b.type.localeCompare(a.type);
+    const typeComp: number = b.type.localeCompare(a.type);
     if (typeComp !== 0) {
       return typeComp;
+    }
+
+    const rarityComp: number = b.rarity - a.rarity;
+    if (rarityComp !== 0) {
+      return rarityComp;
     }
 
     return b.name_ko.localeCompare(a.type);
@@ -38,12 +36,11 @@ export const SupportCardModal: React.FC<{
   isOpen: boolean;
   onClose: (data?: { id: number }) => void;
 }> = ({ isOpen, onClose }) => {
-  const [supportCards, setSupportCards] = React.useState(sortedCardRegexs);
-
-  function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
-    const query = event.target.value;
-    setSupportCards(
-      sortedCardRegexs.filter(
+  const [query, setQuery] = React.useState('');
+  const initialRef = React.useRef(null);
+  const cards = React.useMemo(
+    () =>
+      sortedCards.filter(
         (x) =>
           x.name_ko.search(
             getRegExp(query, {
@@ -51,41 +48,45 @@ export const SupportCardModal: React.FC<{
               ignoreSpace: true,
             })
           ) !== -1
-      )
-    );
-  }
-
-  function handleModalClose() {
-    setSupportCards(sortedCardRegexs);
-    onClose();
-  }
+      ),
+    [query]
+  );
 
   return (
-    <Modal isOpen={isOpen} onClose={handleModalClose} size="2xl">
+    <Modal
+      initialFocusRef={initialRef}
+      isOpen={isOpen}
+      onClose={onClose}
+      size="2xl"
+    >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>서포트카드 선택</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Input marginBottom={4} onChange={handleInputChange}></Input>
-          <SimpleGrid columns={4} spacing={2.5} justifyItems="center">
-            {supportCards.map(({ support_id, name_ko, type }) => (
-              <Center position={'relative'} flexDirection="column">
-                <Image
-                  boxSize="128px"
-                  alt={support_id.toString()}
-                  src={`/img/supports/${support_id}.png`}
-                  onClick={() =>
-                    onClose({
-                      id: support_id,
-                    })
-                  }
-                />
-                {name_ko}
-                {renderType(type)}
-              </Center>
-            ))}
-          </SimpleGrid>
+          <Input
+            ref={initialRef}
+            value={query}
+            marginBottom={2}
+            onChange={(e) => setQuery(e.currentTarget.value)}
+          ></Input>
+          <Box maxH="600px" overflowY="scroll">
+            <SimpleGrid
+              columns={4}
+              spacing={2.5}
+              padding={3}
+              justifyItems="center"
+              overflow={'visible'}
+            >
+              {cards.map(({ support_id }) =>
+                renderSupportCard(support_id, () =>
+                  onClose({
+                    id: support_id,
+                  })
+                )
+              )}
+            </SimpleGrid>
+          </Box>
         </ModalBody>
       </ModalContent>
     </Modal>

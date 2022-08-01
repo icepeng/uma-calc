@@ -5,8 +5,6 @@ import {
   Checkbox,
   FormControl,
   FormLabel,
-  IconButton,
-  Image,
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInput,
@@ -15,10 +13,9 @@ import {
   Stack,
   useDisclosure,
 } from '@chakra-ui/react';
-import { db } from '@uma-calc/core';
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { handleNumber, renderType } from '../pipe';
+import { handleNumber, renderSupportCard } from '../pipe';
 import SupportCardModal from './SupportCardModal';
 
 const SupportCardForm: React.FC<{ index: number }> = ({ index }) => {
@@ -44,34 +41,20 @@ const SupportCardForm: React.FC<{ index: number }> = ({ index }) => {
       <Stack spacing={4} direction="column">
         <FormControl>
           <FormLabel>서포트 카드</FormLabel>
-          <Center h={'174px'}>
-            <Center w={'150px'} flexDirection={'column'} position={'relative'}>
-              {getValues(`deck.${index}.id`) === -1 ? (
-                <IconButton
-                  aria-label="SelectSupportCard"
-                  onClick={onOpen}
-                  icon={<AddIcon />}
-                />
-              ) : (
-                <Image
-                  boxSize="150px"
-                  alt={getValues(`deck.${index}.id`)?.toString()}
-                  src={`/img/supports/${getValues(`deck.${index}.id`)}.png`}
-                  onClick={onOpen}
-                />
-              )}
-              {
-                db.supportCards.find(
-                  (x) => x.support_id === getValues(`deck.${index}.id`)
-                )?.name_ko
-              }
-              {renderType(
-                db.supportCards.find(
-                  (x) => x.support_id === getValues(`deck.${index}.id`)
-                )?.type!
-              )}
+          {getValues(`deck.${index}.id`) === -1 ? (
+            <Center
+              boxSize={'150px'}
+              _hover={{ backgroundColor: 'gray.100' }}
+              margin={[0, 'auto']}
+              cursor={'pointer'}
+              borderRadius={4}
+              onClick={onOpen}
+            >
+              <AddIcon aria-label="SelectSupportCard" />
             </Center>
-          </Center>
+          ) : (
+            renderSupportCard(getValues(`deck.${index}.id`), onOpen)
+          )}
           <SupportCardModal
             isOpen={isOpen}
             onClose={handleModalClose}
