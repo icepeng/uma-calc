@@ -37,7 +37,7 @@ const PlayableCardModal: React.FC<{
                 borderColor="gray.100"
                 borderRadius="4"
                 alt={card_id.toString()}
-                src={`/img/${card_id}.png`}
+                src={`/img/characters/${card_id}.png`}
                 onClick={() =>
                   onClose({
                     id: card_id,

@@ -1,43 +1,54 @@
 import {
+  Box,
   Input,
-  List,
-  ListItem,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  SimpleGrid,
 } from '@chakra-ui/react';
 
 import { db } from '@uma-calc/core';
+import { getRegExp } from 'korean-regexp';
 import React from 'react';
-import { renderRarity, renderType } from '../pipe';
+import { renderSupportCard } from '../pipe';
 
 const sortedCards = db.supportCards
-  .filter((card) => card.release_ko)
+  .filter((x) => x.release_ko)
   .sort((a, b) => {
-    const typeComp = b.type.localeCompare(a.type);
+    const typeComp: number = b.type.localeCompare(a.type);
     if (typeComp !== 0) {
       return typeComp;
     }
 
-    const rarityComp = b.rarity - a.rarity;
+    const rarityComp: number = b.rarity - a.rarity;
     if (rarityComp !== 0) {
       return rarityComp;
     }
 
     return b.name_ko.localeCompare(a.type);
-  });
+  })
+  .map((x) => ({ ...x, name_ko_exp: getRegExp(x.name_ko) }));
 
-const SupportCardModal: React.FC<{
+export const SupportCardModal: React.FC<{
   isOpen: boolean;
   onClose: (data?: { id: number }) => void;
 }> = ({ isOpen, onClose }) => {
   const [query, setQuery] = React.useState('');
   const initialRef = React.useRef(null);
   const cards = React.useMemo(
-    () => sortedCards.filter((card) => card.name_ko.includes(query)),
+    () =>
+      sortedCards.filter(
+        (x) =>
+          x.name_ko.search(
+            getRegExp(query, {
+              initialSearch: true,
+              ignoreSpace: true,
+            })
+          ) !== -1
+      ),
     [query]
   );
 
@@ -46,35 +57,35 @@ const SupportCardModal: React.FC<{
       initialFocusRef={initialRef}
       isOpen={isOpen}
       onClose={onClose}
-      size="lg"
+      size="2xl"
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>서포트 카드 선택</ModalHeader>
+        <ModalHeader>서포트카드 선택</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Input
             ref={initialRef}
             value={query}
+            marginBottom={2}
             onChange={(e) => setQuery(e.currentTarget.value)}
-          />
-          <List paddingX={0} maxH="400px" overflowY="scroll">
-            {cards.map((card) => (
-              <ListItem
-                cursor={'pointer'}
-                _hover={{ backgroundColor: 'gray.100' }}
-                key={card.support_id}
-                onClick={() =>
+          ></Input>
+          <Box maxH="600px" overflowY="scroll">
+            <SimpleGrid
+              columns={4}
+              spacing={2.5}
+              padding={3.5}
+              justifyItems="center"
+            >
+              {cards.map(({ support_id }) =>
+                renderSupportCard(support_id, () =>
                   onClose({
-                    id: card.support_id,
+                    id: support_id,
                   })
-                }
-              >
-                {renderRarity(card.rarity)} {card.name_ko} (
-                {renderType(card.type)})
-              </ListItem>
-            ))}
-          </List>
+                )
+              )}
+            </SimpleGrid>
+          </Box>
         </ModalBody>
       </ModalContent>
     </Modal>
