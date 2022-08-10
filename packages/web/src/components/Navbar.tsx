@@ -18,6 +18,7 @@ const ROUTES: Route[] = [
   { title: '픽업', href: 'gacha' },
   { title: '훈련', href: 'training' },
   // { title: "인자", href: "gene" },
+  { title: '레이스', href: 'racing' },
 ];
 
 const NavLink: React.FC<{ route: Route }> = ({ route }) => (
