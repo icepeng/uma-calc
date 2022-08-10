@@ -73,7 +73,7 @@ describe('racing.caculation', () => {
       },
       컨디션: '최상',
       작전: '선행',
-      healSkils: {
+      healSkills: {
         gold: 1,
         normal: 1,
         unique: 4,

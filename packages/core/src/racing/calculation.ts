@@ -101,7 +101,7 @@ export const getStartHp = ({
 };
 
 export const getHealSkillHp = ({
-  healSkils: { gold, normal, unique, uniqueUpper },
+  healSkills: { gold, normal, unique, uniqueUpper },
 }: RacingStat) => {
   return (
     gold * 550 +
@@ -1123,7 +1123,5 @@ export const getCalculatedRacingStat = (
     idealSpurtStamina,
   };
 };
-
 const calculateRacing = getCalculatedRacingStat;
-
 export default calculateRacing;

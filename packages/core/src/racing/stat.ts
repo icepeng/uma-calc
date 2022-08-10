@@ -29,7 +29,7 @@ export interface 적성 {
 
 export interface RacingStat {
   stat: BaseStat;
-  healSkils: HealSkils;
+  healSkills: HealSkils;
   race: Race;
   적성: 적성;
   컨디션: 컨디션;
