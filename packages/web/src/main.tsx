@@ -6,6 +6,7 @@ import App from './App';
 import './index.css';
 import Gacha from './pages/Gacha';
 import Gene from './pages/Gene';
+import Racing from './pages/Racing';
 import Training from './pages/Training';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
@@ -18,6 +19,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
             <Route path="gacha" element={<Gacha />} />
             <Route path="gene" element={<Gene />} />
             <Route path="training" element={<Training />} />
+            <Route path="racing" element={<Racing />} />
           </Route>
         </Routes>
       </BrowserRouter>
