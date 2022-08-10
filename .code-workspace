@@ -1,0 +1,12 @@
+{
+  "folders": [
+    {
+      "name": "core",
+      "path": "packages/core"
+    },
+    {
+      "name": "web",
+      "path": "packages/web"
+    }
+  ]
+}
